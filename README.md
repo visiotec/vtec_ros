@@ -84,13 +84,40 @@ Tracks a planar patch in a image.
 
 #### Parameters
 
-* **`image_topic`** (string, default: "/temperature")
+* **`image_topic`** (string, default: "camera/image")
 
-   The name of the input topic.
+   The name of the image input topic.
 
-* **`cache_size`** (int, default: 200, min: 0, max: 1000)
+* **`bbox_pos_x`** (int, default: 200)
 
-   The size of the cache.
-}
+   The x coordinate of the upper left corner of the region of interest in the reference image.
+
+* **`bbox_pos_y`** (int, default: 150)
+
+   The y coordinate of the upper left corner of the region of interest in the reference image.
+
+* **`bbox_size_x`** (int, default: 200)
+
+   The length in pixels of the region of interest along the x direction.
+
+* **`bbox_size_x`** (int, default: 200)
+
+   The length in pixels of the region of interest along the y direction.
+
+* **`max_nb_iter_per_level`** (int, default: 5)
+
+   Maximum number of optimization iterations per pyramid level.
+
+* **`max_nb_pyr_level`** (int, default: 2)
+
+   Maximum number of pyramids levels.
+
+* **`sampling_rate`** (double, default: 1.0)
+
+   The sampling rate used to sample points used in the optimization process. 1.0 means 100% of the points are used.
+
+* **`reference_image_path`** (string)
+
+   Path to the reference image.
 
 
