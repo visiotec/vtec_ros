@@ -1,0 +1,9 @@
+image_topic: usb_cam/image_raw
+bbox_size_x: 200
+bbox_size_y: 200
+bbox_pos_x: 200
+bbox_pos_y: 150
+max_nb_iter_per_level: 5
+max_nb_pyr_level: 2
+sampling_rate: 1.0
+# reference_image_path: /home/$(env USER)/Desktop/ref_img.png
