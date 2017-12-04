@@ -1,6 +1,6 @@
 # vtec_ros #
 
-ROS packages from the VisioTec group
+[ROS] packages from the VisioTec group
 
 ## Installation ##
 
@@ -120,4 +120,11 @@ Tracks a planar patch in a image.
 
    Path to the reference image.
 
+## Bugs & Feature Requests
+
+Please report bugs and request features using the [Issue Tracker](https://github.com/lukscasanova/vtec_ros/issues).
+
+
+[ROS]: http://www.ros.org
+[sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
 
