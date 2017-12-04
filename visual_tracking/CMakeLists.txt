@@ -39,4 +39,4 @@ include_directories(
 
 add_executable(tracker_node src/tracker_node.cpp)
 add_dependencies(tracker_node ${${PROJECT_NAME}_EXPORTED_TARGETS})
-target_link_libraries(esm_tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES})
+target_link_libraries(tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES})

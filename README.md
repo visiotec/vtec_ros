@@ -43,14 +43,6 @@ catkin_make
 source devel/setup.bash
 ```
 
-## Usage ##
-
-Launch the tracker node with:
-
-```
-roslaunch visual_tracking tracker.launch
-```
-
 
 ## Nodes ##
 
@@ -120,6 +112,17 @@ Tracks a planar patch in a image.
 
    Path to the reference image.
 
+## Usage ##
+
+### Preparation ###
+
+Launch the tracker node with:
+
+```
+roslaunch visual_tracking tracker.launch
+```
+
+
 ## Bugs & Feature Requests
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/lukscasanova/vtec_ros/issues).
@@ -127,4 +130,5 @@ Please report bugs and request features using the [Issue Tracker](https://github
 
 [ROS]: http://www.ros.org
 [sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
+[visual_tracking/TrackingResult]: visual_tracking/msg/TrackingResult.msg
 
