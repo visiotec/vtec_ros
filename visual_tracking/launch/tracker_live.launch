@@ -1,0 +1,42 @@
+<launch>
+   <arg name="use_ptgrey" default="false" />
+   <arg name="reference_image_path" default="$(find visual_tracking)/imgs/ref_img.png" />
+
+   <!-- Camera Nodes -->
+
+   <!-- Point Grey -->
+   <group if="$(arg use_ptgrey)" ns="usb_cam">
+      <node pkg="nodelet" type="nodelet" name="camera_nodelet_manager" args="manager" />
+
+      <node pkg="nodelet" type="nodelet" name="camera_nodelet"
+          args="load pointgrey_camera_driver/PointGreyCameraNodelet camera_nodelet_manager" >
+         <param name="frame_id" value="camera_link" />
+         <param name="frame_rate" value="60" />
+         <param name="format7_roi_width" value="1280" />
+         <param name="format7_roi_height" value="960" />
+         <param name="format7_x_offset" value="30" />
+         <param name="format7_y_offset" value="30" />
+      </node>
+
+      <node pkg="nodelet" type="nodelet" name="image_proc_debayer"
+         args="load image_proc/debayer camera_nodelet_manager">
+      </node>
+   </group>
+   
+   <!-- Common Webcam -->
+   <group unless="$(arg use_ptgrey)" >
+      <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+         <param name="video_device" value="/dev/video0" />
+         <param name="image_width" value="640" />
+         <param name="image_height" value="480" />
+         <param name="pixel_format" value="yuyv" />
+         <param name="camera_frame_id" value="usb_cam" />
+         <param name="io_method" value="mmap"/>
+      </node>
+   </group>
+   
+   <!-- Tracker Nodes -->
+   <include file="$(find visual_tracking)/launch/tracker.launch">
+      <arg name="reference_image_path" value="$(arg reference_image_path)"/>
+   </include>
+</launch>

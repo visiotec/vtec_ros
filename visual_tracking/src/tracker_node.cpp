@@ -15,7 +15,7 @@ enum tracking_states{
 VTEC::IBGFullHomographyOptimizerCvWrapper ibg_optimizer;
 cv::Mat H;
 float alpha, beta;
-image_transport::Publisher *annotated_pub_ptr, *stabilized_pub_ptr;
+image_transport::Publisher *annotated_pub_ptr, *stabilized_pub_ptr, *reference_pub_ptr;
 ros::Publisher* results_pub_ptr;
 
 int skipFactor=5;
@@ -24,6 +24,8 @@ int skipNumber = 0;
 int state = NOT_TRACKING;
 int BBOX_SIZE_X, BBOX_SIZE_Y;
 
+ros::Time last_ref_pub_time;
+cv::Mat out_ref_template;
 
 
 void fillTrackingMsg(visual_tracking::TrackingResult& msg, const double score, 
@@ -100,7 +102,6 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
          cv::Mat out_cur_template;
          current_template.convertTo(out_cur_template, CV_8U, 255.0);
-         cv::imshow("cur_template", out_cur_template);
          sensor_msgs::ImagePtr stabilized_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", out_cur_template).toImageMsg();
          stabilized_pub_ptr->publish(stabilized_msg);
 
@@ -118,8 +119,15 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
       // ROS_INFO_STREAM("alpha: " << alpha << ", beta: " << beta);
       
       sensor_msgs::ImagePtr annotaded_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
+      annotaded_msg->header.frame_id = "camera";
       annotated_pub_ptr->publish(annotaded_msg);
 
+      if(ros::Time::now() - last_ref_pub_time > ros::Duration(5.0)){
+         sensor_msgs::ImagePtr reference_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", out_ref_template).toImageMsg();
+         reference_pub_ptr->publish(reference_msg);
+         last_ref_pub_time = ros::Time::now();
+      }
+      
    }
    catch (cv_bridge::Exception& e)
    {
@@ -159,6 +167,9 @@ int main(int argc, char **argv)
    image_transport::Publisher stabilized_pub = it.advertise("stabilized_image", 1);
    stabilized_pub_ptr = &stabilized_pub;
 
+   image_transport::Publisher reference_pub = it.advertise("reference_image", 1);
+   reference_pub_ptr = &reference_pub;
+
    ros::Publisher results_pub = nh.advertise<visual_tracking::TrackingResult>("tracking", 1);
    results_pub_ptr = &results_pub;
 
@@ -174,20 +185,19 @@ int main(int argc, char **argv)
    cv::Mat reference_template;
    ibg_optimizer.getReferenceTemplate(reference_template);
 
+   reference_template.convertTo(out_ref_template, CV_8U, 255.0);
+
    H = cv::Mat::eye(3,3,CV_64F);
    H.at<double>(0,2) = 200;
    H.at<double>(1,2) = 200;
    ibg_optimizer.setHomography(H);
+  
+   last_ref_pub_time = ros::Time::now();
    // Initialize optimization variables
-   // ibg_optimizer.getHomography(H);
    alpha = 1.0;
    beta = 0.0;
 
-   // Create window and spin
-   // cv::namedWindow("reference_template");
    // cv::startWindowThread();
-   cv::imshow("reference_template", reference_template);
-   cv::waitKey(0);
 
    // image_transport::ImageTransport it(nh);
    image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);

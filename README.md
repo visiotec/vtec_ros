@@ -108,20 +108,39 @@ Tracks a planar patch in a image.
 
    The sampling rate used to sample points used in the optimization process. 1.0 means 100% of the points are used.
 
-* **`reference_image_path`** (string)
+* **`reference_image_path`** (string, "$(find visual\_tracking)/imgs/ref\_img.png")
 
    Path to the reference image.
 
 ## Usage ##
 
-### Preparation ###
+### Runnning with a dataset ###
 
-Launch the tracker node with:
+Download the dataset from here: [dataset](https://www.dropbox.com/s/uhzg6rlk92zzxou/vtec_tracker_test.bag?dl=0)
+
+Open a terminal window and launch the tracker node with:
 
 ```
-roslaunch visual_tracking tracker.launch
+roslaunch visual_tracking tracker_live.launch
 ```
 
+In another terminal, play the downloaded bagfile with:
+
+```
+rosbag play vtec_tracker_test.bag
+```
+
+Now you should see in RViz the tracking process.
+
+### Running from a live camera ###
+
+The tracker node needs a reference image. The images are located in the [imgs](visual_tracking/imgs) folder. To start using the node, you can either use the provided [ref_img.png](visual_tracking/imgs/ref_img.png) file, or use your own. The location of the reference image should be set using the `reference_image_path` parameter. Print the reference image so you can start playing with our tracker.
+
+After correctly selecting the reference image and setting the bounding box parameters, open a terminal window and launch the tracker node:
+
+```
+roslaunch visual_tracking tracker_live.launch
+```
 
 ## Bugs & Feature Requests
 
