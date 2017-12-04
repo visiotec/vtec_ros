@@ -2,8 +2,9 @@
 #include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <cv_bridge/cv_bridge.h>
-#include <cv_optimizer/ibg_full.h>
-#include <cv_optimizer/draw.h>
+#include <cv_wrapper/ibg_cv.h>
+#include <cv_wrapper/vtec_opencv.h>
+#include <cv_wrapper/draw.h>
 #include <visual_tracking/TrackingResult.h>
 
 enum tracking_states{
@@ -11,7 +12,7 @@ enum tracking_states{
    TRACKING
 };
 
-VTEC::CvIBGFullHomographyOptimizer cv_ibg_optimizer;
+VTEC::IBGFullHomographyOptimizerCvWrapper ibg_optimizer;
 cv::Mat H;
 float alpha, beta;
 image_transport::Publisher *annotated_pub_ptr, *stabilized_pub_ptr;
@@ -22,6 +23,7 @@ int skipNumber = 0;
 
 int state = NOT_TRACKING;
 int BBOX_SIZE_X, BBOX_SIZE_Y;
+
 
 
 void fillTrackingMsg(visual_tracking::TrackingResult& msg, const double score, 
@@ -82,11 +84,11 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
       float alpha_test = alpha;
       float beta_test = beta;
 
-      double zncc;
+      double zncc = 0.0;
       
-      zncc = cv_ibg_optimizer.optimize(cur_img, H_test, alpha_test, beta_test, ZNCC_PREDICTOR);
+      zncc = ibg_optimizer.optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
 
-      if(zncc>0.7){
+      if(state== NOT_TRACKING && zncc>0.7 || state == TRACKING && zncc > 0.4){
 
          state = TRACKING;
          H = H_test;
@@ -94,27 +96,27 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          beta = beta_test;
 
          cv::Mat current_template;
-         cv_ibg_optimizer.getCurrentTemplate(current_template);
+         ibg_optimizer.getCurrentTemplate(current_template);
 
          cv::Mat out_cur_template;
-         current_template.convertTo(out_cur_template, CV_8U);
+         current_template.convertTo(out_cur_template, CV_8U, 255.0);
+         cv::imshow("cur_template", out_cur_template);
          sensor_msgs::ImagePtr stabilized_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", out_cur_template).toImageMsg();
          stabilized_pub_ptr->publish(stabilized_msg);
 
          VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y, cv::Scalar(0.0, 255.0, 0.0) );
-
+         fillTrackingMsg(result_msg, zncc, H, alpha, beta, BBOX_SIZE_X, BBOX_SIZE_Y);
+         results_pub_ptr->publish(result_msg);
+         
       }else{
          state = NOT_TRACKING;
          VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y);
       }
 
-      ROS_INFO_STREAM("ZNCC Score: " << zncc);
-      ROS_INFO_STREAM("H: " << H);
-      ROS_INFO_STREAM("alpha: " << alpha << ", beta: " << beta);
-      fillTrackingMsg(result_msg, zncc, H, alpha, beta, BBOX_SIZE_X, BBOX_SIZE_Y);
-
-      results_pub_ptr->publish(result_msg);
-
+      // ROS_INFO_STREAM("ZNCC Score: " << zncc);
+      // ROS_INFO_STREAM("H: " << H);
+      // ROS_INFO_STREAM("alpha: " << alpha << ", beta: " << beta);
+      
       sensor_msgs::ImagePtr annotaded_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
       annotated_pub_ptr->publish(annotaded_msg);
 
@@ -161,34 +163,36 @@ int main(int argc, char **argv)
    results_pub_ptr = &results_pub;
 
    // Start optimizer 
-   cv_ibg_optimizer.initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
+   ibg_optimizer.initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
    
    // Set reference template
    ROS_INFO_STREAM("Reference Path: " << reference_image_path);
    cv::Mat base_img = cv::imread(reference_image_path, CV_LOAD_IMAGE_GRAYSCALE);
-   cv_ibg_optimizer.setReferenceTemplate(base_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
+   ibg_optimizer.setReferenceTemplate(base_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
 
    // //Display the reference template
    cv::Mat reference_template;
-   cv_ibg_optimizer.getReferenceTemplate(reference_template);
+   ibg_optimizer.getReferenceTemplate(reference_template);
 
    H = cv::Mat::eye(3,3,CV_64F);
-   cv_ibg_optimizer.setHomography(H);
+   H.at<double>(0,2) = 200;
+   H.at<double>(1,2) = 200;
+   ibg_optimizer.setHomography(H);
    // Initialize optimization variables
-   // cv_ibg_optimizer.getHomography(H);
+   // ibg_optimizer.getHomography(H);
    alpha = 1.0;
    beta = 0.0;
 
    // Create window and spin
-   cv::namedWindow("reference_template");
-   cv::startWindowThread();
-   cv::imshow("reference_template", reference_template/255.0);
+   // cv::namedWindow("reference_template");
+   // cv::startWindowThread();
+   cv::imshow("reference_template", reference_template);
    cv::waitKey(0);
 
    // image_transport::ImageTransport it(nh);
    image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);
    ros::spin();
-   cv::destroyWindow("view");
+   // cv::destroyWindow("reference_template");
 }
 
 

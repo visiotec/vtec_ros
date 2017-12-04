@@ -1,14 +1,16 @@
 <launch>
-   <arg name="bbox_size_x" default="300"/>
-   <arg name="bbox_size_y" default="275"/>
-   <arg name="bbox_pos_x" default="400"/>
-   <arg name="bbox_pos_y" default="280"/>
+   <arg name="bbox_size_x" default="200"/>
+   <arg name="bbox_size_y" default="200"/>
+   <arg name="bbox_pos_x" default="200"/>
+   <arg name="bbox_pos_y" default="200"/>
    <arg name="max_nb_iter_per_level" default="10"/>
    <arg name="max_nb_pyr_level" default="3"/>
    <arg name="sampling_rate" default="1.0"/>
    <arg name="camera_serial" default="0" />
    <arg name="calibrated" default="0" />
    <arg name="use_ptgrey" default="false" />
+   <arg name="reference_image_path" default="/home/mestrado/Desktop/ref_img.png"/>
+
 
    <group if="$(arg use_ptgrey)" ns="usb_cam">
       <node pkg="nodelet" type="nodelet" name="camera_nodelet_manager" args="manager" />
@@ -56,7 +58,7 @@
       <param name="max_nb_iter_per_level" value="$(arg max_nb_iter_per_level)"/>
       <param name="max_nb_pyr_level" value="$(arg max_nb_pyr_level)"/>
       <param name="sampling_rate" value="$(arg sampling_rate)"/>
-      <param name="reference_image_path" value="/home/mestrado/Desktop/ref_temer.png"/>
+      <param name="reference_image_path" value="$(arg reference_image_path)"/>
    </node>
 
    <node name="tracker_output" pkg="image_view" type="image_view" respawn="false" output="screen">
