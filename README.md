@@ -4,12 +4,16 @@ ROS packages from the VisioTec group
 
 ## Installation ##
 
+### Dependencies ###
+
 Install the usb_cam driver from ROS repositories.
 
 ```
 sudo apt-get install ros-kinetic-usb-cam
 ```
 
+
+### Build ###
 Setup a ROS workspace.
 
 ```
@@ -39,7 +43,7 @@ catkin_make
 source devel/setup.bash
 ```
 
-## Running ##
+## Usage ##
 
 Launch the tracker node with:
 
@@ -48,5 +52,45 @@ roslaunch visual_tracking tracker.launch
 ```
 
 
+## Nodes ##
+
+
+### tracker_node ###
+
+Tracks a planar patch in a image.
+
+#### Subscribed Topics
+
+* **`camera/image`** ([sensor_msgs/Image])
+
+   The incoming image stream from the camera.
+
+
+#### Published Topics
+
+* **`annotated_image`** ([sensor_msgs/Image])
+
+   The image stream annotaded with the tracked image region and the score.
+
+
+* **`stabilized_image`** ([sensor_msgs/Image])
+
+   The warped image patch from the image stream, that tries to match to the reference image patch.
+
+
+* **`tracking`** ([visual_tracking/TrackingResult])
+
+   Information about the tracking. Includes the estimated homography and the photometric parameters.
+
+#### Parameters
+
+* **`image_topic`** (string, default: "/temperature")
+
+   The name of the input topic.
+
+* **`cache_size`** (int, default: 200, min: 0, max: 1000)
+
+   The size of the cache.
+}
 
 
