@@ -5,7 +5,7 @@
 #include <cv_wrapper/ibg_cv.h>
 #include <cv_wrapper/vtec_opencv.h>
 #include <cv_wrapper/draw.h>
-#include <visual_tracking/TrackingResult.h>
+#include <vtec_msgs/TrackingResult.h>
 
 enum tracking_states{
    NOT_TRACKING,
@@ -28,7 +28,7 @@ ros::Time last_ref_pub_time;
 cv::Mat out_ref_template;
 
 
-void fillTrackingMsg(visual_tracking::TrackingResult& msg, const double score, 
+void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score, 
    const cv::Mat& H, const float alpha, const float beta, 
    int bbox_size_x, int bbox_size_y)
 {
@@ -79,7 +79,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
    try
    {
       cv::Mat cur_img = cv_bridge::toCvShare(msg, "mono8")->image;
-      visual_tracking::TrackingResult result_msg;
+      vtec_msgs::TrackingResult result_msg;
       result_msg.header = msg->header;
 
       cv::Mat H_test = H.clone();
@@ -114,10 +114,6 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y);
       }
 
-      // ROS_INFO_STREAM("ZNCC Score: " << zncc);
-      // ROS_INFO_STREAM("H: " << H);
-      // ROS_INFO_STREAM("alpha: " << alpha << ", beta: " << beta);
-      
       sensor_msgs::ImagePtr annotaded_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
       annotaded_msg->header.frame_id = "camera";
       annotated_pub_ptr->publish(annotaded_msg);
@@ -170,7 +166,7 @@ int main(int argc, char **argv)
    image_transport::Publisher reference_pub = it.advertise("reference_image", 1);
    reference_pub_ptr = &reference_pub;
 
-   ros::Publisher results_pub = nh.advertise<visual_tracking::TrackingResult>("tracking", 1);
+   ros::Publisher results_pub = nh.advertise<vtec_msgs::TrackingResult>("tracking", 1);
    results_pub_ptr = &results_pub;
 
    // Start optimizer 

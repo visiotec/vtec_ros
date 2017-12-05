@@ -69,6 +69,9 @@ Tracks a planar patch in a image.
 
    The warped image patch from the image stream, that tries to match to the reference image patch.
 
+* **`reference_image`** ([sensor_msgs/Image])
+
+   The reference template extracted from the reference image file.   
 
 * **`tracking`** ([visual_tracking/TrackingResult])
 
