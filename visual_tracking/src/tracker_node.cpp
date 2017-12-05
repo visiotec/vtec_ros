@@ -114,10 +114,6 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y);
       }
 
-      // ROS_INFO_STREAM("ZNCC Score: " << zncc);
-      // ROS_INFO_STREAM("H: " << H);
-      // ROS_INFO_STREAM("alpha: " << alpha << ", beta: " << beta);
-      
       sensor_msgs::ImagePtr annotaded_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
       annotaded_msg->header.frame_id = "camera";
       annotated_pub_ptr->publish(annotaded_msg);

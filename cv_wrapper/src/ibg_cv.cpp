@@ -24,13 +24,9 @@ double VTEC::IBGHomographyOptimizerCvWrapper::optimize(const cv::Mat & curr_imag
 
    if(!initialized_) return -1.0;
 
-   std::cout << "optimize" << std::endl;
-
    /* convert cv Image to Vtec image */
    VTEC::Image v_image;
    VTEC::cv2vtecImg(curr_image, v_image);
-
-   std::cout << "converted image" << std::endl;
 
    /* convert cv Homography to Vtec Homography */
    VTEC::Homography v_H;
@@ -46,7 +42,6 @@ double VTEC::IBGHomographyOptimizerCvWrapper::optimize(const cv::Mat & curr_imag
    
    double score = optimizer->optimize(v_image, v_H, alpha, beta, predictor);
 
-   std::cout << "optimized" << std::endl;
    H.at<double>(0,0) = v_H[0];
    H.at<double>(0,1) = v_H[1];
    H.at<double>(0,2) = v_H[2];
@@ -56,8 +51,6 @@ double VTEC::IBGHomographyOptimizerCvWrapper::optimize(const cv::Mat & curr_imag
    H.at<double>(2,0) = v_H[6];
    H.at<double>(2,1) = v_H[7];
    H.at<double>(2,2) = v_H[8];
-
-   std::cout << "score: " << score << std::endl;
 
    return score;
 }
@@ -103,10 +96,5 @@ void VTEC::IBGHomographyOptimizerCvWrapper::getCurrentTemplate(cv::Mat& img){
 void VTEC::IBGHomographyOptimizerCvWrapper::getReferenceTemplate(cv::Mat& img){
    VTEC::Image vtec_template;
    optimizer->getReferenceTemplate(vtec_template);
-   std::cout << "ref_template size: " << vtec_template.I->rows << ", " << vtec_template.I->cols << std::endl;
-
    vtec2cvImg(vtec_template, img);   
-
-   std::cout << "-- ref_template size: " << vtec_template.I->rows << ", " << vtec_template.I->cols << std::endl;
-
 }
