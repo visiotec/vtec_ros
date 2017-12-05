@@ -7,27 +7,15 @@ find_package(catkin REQUIRED COMPONENTS
 	cv_wrapper
 	roscpp
 	image_transport
-	message_generation
-	geometry_msgs
+	vtec_msgs
 )
 
 find_package(vtec)
 
-add_message_files(
-	FILES
-	TrackingResult.msg
-)
-
-generate_messages(
-	DEPENDENCIES
-	std_msgs 
-	geometry_msgs 
-)
-
 catkin_package(
 	INCLUDE_DIRS include
 	LIBRARIES visual_tracking
-	CATKIN_DEPENDS roscpp message_runtime
+	CATKIN_DEPENDS roscpp 
 	DEPENDS vtec
 )
 
@@ -38,5 +26,4 @@ include_directories(
 )
 
 add_executable(tracker_node src/tracker_node.cpp)
-add_dependencies(tracker_node ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES})
