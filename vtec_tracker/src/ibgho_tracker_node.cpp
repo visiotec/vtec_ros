@@ -28,6 +28,17 @@ ros::Time last_ref_pub_time;
 cv::Mat out_ref_template;
 
 
+/**
+ * @brief      Fills a vtec_msgs/TrackingResult message
+ *
+ * @param      msg          The message
+ * @param[in]  score        The (zncc) score
+ * @param[in]  H            The homography matrix
+ * @param[in]  alpha        The photometric gain
+ * @param[in]  beta         The photometric bias
+ * @param[in]  bbox_size_x  The bounding box size x
+ * @param[in]  bbox_size_y  The bounding box size y
+ */
 void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score, 
    const cv::Mat& H, const float alpha, const float beta, 
    int bbox_size_x, int bbox_size_y)
@@ -73,6 +84,11 @@ void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score,
 
 }
 
+/**
+ * @brief      Callback to handle incoming images
+ *
+ * @param[in]  msg   The message
+ */
 void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 {   
 
@@ -169,6 +185,8 @@ int main(int argc, char **argv)
    ros::Publisher results_pub = nh.advertise<vtec_msgs::TrackingResult>("tracking", 1);
    results_pub_ptr = &results_pub;
 
+   image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);
+
    // Start optimizer 
    ibg_optimizer.initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
    
@@ -193,12 +211,8 @@ int main(int argc, char **argv)
    alpha = 1.0;
    beta = 0.0;
 
-   // cv::startWindowThread();
 
-   // image_transport::ImageTransport it(nh);
-   image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);
    ros::spin();
-   // cv::destroyWindow("reference_template");
 }
 
 
