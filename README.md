@@ -37,8 +37,7 @@ sudo apt-get install ros-kinetic-usb-cam
 Setup a ROS workspace.
 
 ```
-cd 
-mkdir -p catkin_ws/src
+mkdir -p ~/catkin_ws/src
 ```
 
 Install the vtec cpp library
@@ -57,7 +56,7 @@ Install the ROS packages
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/lukscasanova/vtec_ros
+git clone https://github.com/lukscasanova/vtec_ros.git
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash

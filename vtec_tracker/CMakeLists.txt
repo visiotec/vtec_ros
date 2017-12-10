@@ -14,7 +14,6 @@ find_package(vtec)
 
 catkin_package(
 	INCLUDE_DIRS include
-	# LIBRARIES vtre_tracking
 	CATKIN_DEPENDS roscpp 
 	DEPENDS vtec
 )
