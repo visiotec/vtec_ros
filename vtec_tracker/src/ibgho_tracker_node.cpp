@@ -18,9 +18,6 @@ float alpha, beta;
 image_transport::Publisher *annotated_pub_ptr, *stabilized_pub_ptr, *reference_pub_ptr;
 ros::Publisher* results_pub_ptr;
 
-int skipFactor=5;
-int skipNumber = 0;
-
 int state = NOT_TRACKING;
 int BBOX_SIZE_X, BBOX_SIZE_Y;
 
@@ -28,6 +25,17 @@ ros::Time last_ref_pub_time;
 cv::Mat out_ref_template;
 
 
+/**
+ * @brief      Fills a vtec_msgs/TrackingResult message
+ *
+ * @param      msg          The message
+ * @param[in]  score        The (zncc) score
+ * @param[in]  H            The homography matrix
+ * @param[in]  alpha        The photometric gain
+ * @param[in]  beta         The photometric bias
+ * @param[in]  bbox_size_x  The bounding box size x
+ * @param[in]  bbox_size_y  The bounding box size y
+ */
 void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score, 
    const cv::Mat& H, const float alpha, const float beta, 
    int bbox_size_x, int bbox_size_y)
@@ -73,6 +81,11 @@ void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score,
 
 }
 
+/**
+ * @brief      Callback to handle incoming images
+ *
+ * @param[in]  msg   The message
+ */
 void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 {   
 
@@ -155,7 +168,7 @@ int main(int argc, char **argv)
    nhPrivate.getParam("reference_image_path", reference_image_path);
    nhPrivate.getParam("image_topic", image_topic);
 
-   // // Register publisher
+   // Register publisher
    image_transport::ImageTransport it(nh);
    image_transport::Publisher annotated_pub = it.advertise("annotated_image", 1);
    annotated_pub_ptr = &annotated_pub;
@@ -169,6 +182,8 @@ int main(int argc, char **argv)
    ros::Publisher results_pub = nh.advertise<vtec_msgs::TrackingResult>("tracking", 1);
    results_pub_ptr = &results_pub;
 
+   image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);
+
    // Start optimizer 
    ibg_optimizer.initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
    
@@ -177,28 +192,22 @@ int main(int argc, char **argv)
    cv::Mat base_img = cv::imread(reference_image_path, CV_LOAD_IMAGE_GRAYSCALE);
    ibg_optimizer.setReferenceTemplate(base_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
 
-   // //Display the reference template
+   // Display the reference template
    cv::Mat reference_template;
    ibg_optimizer.getReferenceTemplate(reference_template);
 
    reference_template.convertTo(out_ref_template, CV_8U, 255.0);
 
+   // Initialize optimization variables
    H = cv::Mat::eye(3,3,CV_64F);
    H.at<double>(0,2) = 200;
    H.at<double>(1,2) = 200;
    ibg_optimizer.setHomography(H);
-  
-   last_ref_pub_time = ros::Time::now();
-   // Initialize optimization variables
    alpha = 1.0;
    beta = 0.0;
+   last_ref_pub_time = ros::Time::now();
 
-   // cv::startWindowThread();
-
-   // image_transport::ImageTransport it(nh);
-   image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);
    ros::spin();
-   // cv::destroyWindow("reference_template");
 }
 
 

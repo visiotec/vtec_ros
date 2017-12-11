@@ -2,6 +2,26 @@
 
 [ROS] packages from the VisioTec group
 
+## Resources ##
+
+* Homepage: [https://sites.google.com/site/geraldofsilveira/]()
+
+## Documentation and Citing ##
+
+The technical report available [here]() describes the  tracker software and its working principles. If you use this software in an academic context, please cite the technical report, using:
+
+```
+@TechReport{nogueira2017,
+  author =  {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
+  title =   {VISIOTEC Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
+  institution = {CTI},
+  year =  {2017},
+  address =   {Brazil}
+}
+
+```
+
+
 ## Installation ##
 
 ### Dependencies ###
@@ -17,16 +37,15 @@ sudo apt-get install ros-kinetic-usb-cam
 Setup a ROS workspace.
 
 ```
-cd 
-mkdir -p catkin_ws/src
+mkdir -p ~/catkin_ws/src
 ```
 
 Install the vtec cpp library
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/lukscasanova/vtec_cpp_release.git
-cd vtec_cpp_release
+git clone https://github.com/lukscasanova/vtec.git
+cd vtec
 mkdir build
 cd build
 cmake ..
@@ -37,7 +56,7 @@ Install the ROS packages
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/lukscasanova/vtec_ros
+git clone https://github.com/lukscasanova/vtec_ros.git
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
@@ -124,7 +143,7 @@ Download the dataset from here: [dataset](https://www.dropbox.com/s/uhzg6rlk92zz
 Open a terminal window and launch the tracker node with:
 
 ```
-roslaunch visual_tracking tracker_live.launch
+roslaunch visual_tracking tracker.launch
 ```
 
 In another terminal, play the downloaded bagfile with:

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(visual_tracking)
+project(vtec_tracker)
 
 add_compile_options(-std=c++11)
 
@@ -14,7 +14,6 @@ find_package(vtec)
 
 catkin_package(
 	INCLUDE_DIRS include
-	LIBRARIES visual_tracking
 	CATKIN_DEPENDS roscpp 
 	DEPENDS vtec
 )
@@ -25,5 +24,5 @@ include_directories(
 	${vtec_INCLUDE_DIRS}
 )
 
-add_executable(tracker_node src/tracker_node.cpp)
-target_link_libraries(tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES})
+add_executable(ibgho_tracker_node src/ibgho_tracker_node.cpp)
+target_link_libraries(ibgho_tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES})

@@ -1,5 +1,11 @@
 namespace VTEC{
 
+/**
+ * @brief      Warp a point using an homography matrix
+ *
+ * @param      p     The point
+ * @param[in]  H     The homography matrix
+ */
 void warpPoints(cv::Point& p, cv::Mat H){
   double w = p.x*H.at<double>(2,0) + p.y*H.at<double>(2,1) + H.at<double>(2,2);
   double u2 = (p.x*H.at<double>(0,0)+p.y*H.at<double>(0,1)+H.at<double>(0,2))/w;
@@ -8,6 +14,16 @@ void warpPoints(cv::Point& p, cv::Mat H){
   p.y = v2;
 }
 
+/**
+ * @brief      Draws a tracking result in an image.
+ *
+ * @param      image        The image
+ * @param[in]  H            The homography matrix
+ * @param[in]  score        The score
+ * @param[in]  bbox_size_x  The bounding box size x
+ * @param[in]  bbox_size_y  The bounding box size y
+ * @param[in]  color        The color
+ */
 void drawResult(cv::Mat& image, cv::Mat H, double score, int bbox_size_x, int bbox_size_y, cv::Scalar color = cv::Scalar(255,255,255)){
   cv::Point p1(0,0), p2(0, bbox_size_y), p3(bbox_size_x, 0), p4(bbox_size_x,bbox_size_y);
   warpPoints(p1, H);

@@ -1,6 +1,6 @@
 <launch>
    <arg name="use_ptgrey" default="false" />
-   <arg name="reference_image_path" default="$(find visual_tracking)/imgs/ref_img.png" />
+   <arg name="reference_image_path" default="$(find vtec_tracker)/imgs/ref_img.png" />
 
    <!-- Camera Nodes -->
 
@@ -36,7 +36,7 @@
    </group>
    
    <!-- Tracker Nodes -->
-   <include file="$(find visual_tracking)/launch/tracker.launch">
+   <include file="$(find vtec_tracker)/launch/tracker.launch">
       <arg name="reference_image_path" value="$(arg reference_image_path)"/>
    </include>
 </launch>
