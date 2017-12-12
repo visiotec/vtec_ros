@@ -146,7 +146,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
 int main(int argc, char **argv)
 {
-   ros::init(argc, argv, "image_listener");
+   ros::init(argc, argv, "ibgho_tracker_node");
    ros::NodeHandle nh;
    ros::NodeHandle nhPrivate("~");
 
