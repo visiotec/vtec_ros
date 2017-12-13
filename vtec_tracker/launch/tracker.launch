@@ -7,6 +7,6 @@
     <param name="reference_image_path" value="$(arg reference_image_path)"/>
   </node>
 
-  <node name="rviz" type="rviz" pkg="rviz" args="$(find vtec_tracker)/config/vtec_tracker.rviz"/>
+  <node name="rviz" type="rviz" pkg="rviz" args="-d $(find vtec_tracker)/config/vtec_tracker.rviz"/>ro
 
 </launch>
