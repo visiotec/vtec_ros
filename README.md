@@ -92,7 +92,7 @@ Tracks a planar patch in a image.
 
    The reference template extracted from the reference image file.   
 
-* **`tracking`** ([visual_tracking/TrackingResult])
+* **`tracking`** ([vtec_tracker/TrackingResult])
 
    Information about the tracking. Includes the estimated homography and the photometric parameters.
 
@@ -143,7 +143,7 @@ Download the dataset from here: [dataset](https://www.dropbox.com/s/uhzg6rlk92zz
 Open a terminal window and launch the tracker node with:
 
 ```
-roslaunch visual_tracking tracker.launch
+roslaunch vtec_tracker tracker.launch
 ```
 
 In another terminal, play the downloaded bagfile with:
@@ -156,12 +156,12 @@ Now you should see in RViz the tracking process.
 
 ### Running from a live camera ###
 
-The tracker node needs a reference image. The images are located in the [imgs](visual_tracking/imgs) folder. To start using the node, you can either use the provided [ref_img.png](visual_tracking/imgs/ref_img.png) file, or use your own. The location of the reference image should be set using the `reference_image_path` parameter. Print the reference image so you can start playing with our tracker.
+The tracker node needs a reference image. The images are located in the [imgs](vtec_tracker/imgs) folder. To start using the node, you can either use the provided [ref_img.png](vtec_tracker/imgs/ref_img.png) file, or use your own. The location of the reference image should be set using the `reference_image_path` parameter. Print the reference image so you can start playing with our tracker.
 
 After correctly selecting the reference image and setting the bounding box parameters, open a terminal window and launch the tracker node:
 
 ```
-roslaunch visual_tracking tracker_live.launch
+roslaunch vtec_tracker tracker_live.launch
 ```
 
 ## Bugs & Feature Requests
@@ -171,5 +171,5 @@ Please report bugs and request features using the [Issue Tracker](https://github
 
 [ROS]: http://www.ros.org
 [sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
-[visual_tracking/TrackingResult]: visual_tracking/msg/TrackingResult.msg
+[vtec_tracker/TrackingResult]: vtec_tracker/msg/TrackingResult.msg
 
