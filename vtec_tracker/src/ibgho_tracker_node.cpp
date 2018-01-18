@@ -6,6 +6,7 @@
 #include <cv_wrapper/vtec_opencv.h>
 #include <cv_wrapper/draw.h>
 #include <vtec_msgs/TrackingResult.h>
+#include <std_msgs/Char.h>
 
 enum tracking_states{
    NOT_TRACKING,
@@ -20,9 +21,13 @@ ros::Publisher* results_pub_ptr;
 
 int state = NOT_TRACKING;
 int BBOX_SIZE_X, BBOX_SIZE_Y;
+int BBOX_POS_X, BBOX_POS_Y;
 
 ros::Time last_ref_pub_time;
 cv::Mat out_ref_template;
+
+bool start_command = false;
+cv::Mat cur_img;
 
 
 /**
@@ -81,6 +86,23 @@ void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score,
 
 }
 
+void start_tracking(){
+   ibg_optimizer.setReferenceTemplate(cur_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
+   
+   // Initialize optimization variables
+   H = cv::Mat::eye(3,3,CV_64F);
+   H.at<double>(0,2) = BBOX_POS_X;
+   H.at<double>(1,2) = BBOX_POS_Y;
+   ibg_optimizer.setHomography(H);
+   alpha = 1.0;
+   beta = 0.0;
+
+   cv::Mat reference_template;
+   ibg_optimizer.getReferenceTemplate(reference_template);
+
+   reference_template.convertTo(out_ref_template, CV_8U, 255.0);
+}
+
 /**
  * @brief      Callback to handle incoming images
  *
@@ -91,7 +113,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
    try
    {
-      cv::Mat cur_img = cv_bridge::toCvShare(msg, "mono8")->image;
+      cur_img = cv_bridge::toCvShare(msg, "mono8")->image;
       vtec_msgs::TrackingResult result_msg;
       result_msg.header = msg->header;
 
@@ -102,6 +124,11 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
       double zncc = 0.0;
       
       zncc = ibg_optimizer.optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
+
+      if(start_command){
+         start_command = false;
+         start_tracking();        
+      }
 
       if(state== NOT_TRACKING && zncc>0.7 || state == TRACKING && zncc > 0.4){
 
@@ -125,6 +152,8 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
       }else{
          state = NOT_TRACKING;
          VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y);
+         cv::putText(cur_img, "press S to start tracking", cv::Point(30,60), CV_FONT_HERSHEY_SIMPLEX, 1,(255,255,255), 3);
+
       }
 
       sensor_msgs::ImagePtr annotaded_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
@@ -144,6 +173,19 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
    }
 }
 
+void cmdCallback(const std_msgs::Char cmd_msg){
+   switch(cmd_msg.data){
+      case 115:
+         ROS_INFO("(re)starting tracking");
+         start_command = true;
+         break;
+      default:
+         break;
+   }
+
+   
+}
+
 int main(int argc, char **argv)
 {
    ros::init(argc, argv, "ibgho_tracker_node");
@@ -151,7 +193,6 @@ int main(int argc, char **argv)
    ros::NodeHandle nhPrivate("~");
 
    // Tracker Parameters
-   int BBOX_POS_X, BBOX_POS_Y;
    int MAX_NB_ITERATION_PER_LEVEL;
    int MAX_NB_PYR_LEVEL;
    double PIXEL_KEEP_RATE;
@@ -184,24 +225,26 @@ int main(int argc, char **argv)
 
    image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);
 
+   ros::Subscriber cmd_sub = nh.subscribe("track_cmd", 1, cmdCallback);
+
    // Start optimizer 
    ibg_optimizer.initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
    
    // Set reference template
-   ROS_INFO_STREAM("Reference Path: " << reference_image_path);
-   cv::Mat base_img = cv::imread(reference_image_path, CV_LOAD_IMAGE_GRAYSCALE);
-   ibg_optimizer.setReferenceTemplate(base_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
+   // ROS_INFO_STREAM("Reference Path: " << reference_image_path);
+   // cv::Mat base_img = cv::imread(reference_image_path, CV_LOAD_IMAGE_GRAYSCALE);
+   // ibg_optimizer.setReferenceTemplate(base_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
 
-   // Display the reference template
-   cv::Mat reference_template;
-   ibg_optimizer.getReferenceTemplate(reference_template);
+   // // Display the reference template
+   // cv::Mat reference_template;
+   // ibg_optimizer.getReferenceTemplate(reference_template);
 
-   reference_template.convertTo(out_ref_template, CV_8U, 255.0);
+   // reference_template.convertTo(out_ref_template, CV_8U, 255.0);
 
    // Initialize optimization variables
    H = cv::Mat::eye(3,3,CV_64F);
-   H.at<double>(0,2) = 200;
-   H.at<double>(1,2) = 200;
+   H.at<double>(0,2) = BBOX_POS_X;
+   H.at<double>(1,2) = BBOX_POS_Y;
    ibg_optimizer.setHomography(H);
    alpha = 1.0;
    beta = 0.0;
