@@ -13,12 +13,12 @@ The technical report available [here]() describes the  tracker software and its 
 ```
 @TechReport{nogueira2017,
   author =  {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
-  title =   {VISIOTEC Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
+  title =   {{VISIOTEC} Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
+  number = {CTI-VTEC-TR-01-2017},
   institution = {CTI},
-  year =  {2017},
-  address =   {Brazil}
+  year = {2017},
+  address = {Brazil}
 }
-
 ```
 
 
@@ -156,13 +156,13 @@ Now you should see in RViz the tracking process.
 
 ### Running from a live camera ###
 
-The tracker node needs a reference image. The images are located in the [imgs](vtec_tracker/imgs) folder. To start using the node, you can either use the provided [ref_img.png](vtec_tracker/imgs/ref_img.png) file, or use your own. The location of the reference image should be set using the `reference_image_path` parameter. Print the reference image so you can start playing with our tracker.
-
-After correctly selecting the reference image and setting the bounding box parameters, open a terminal window and launch the tracker node:
+Open a terminal window and launch the tracker node:
 
 ```
 roslaunch vtec_tracker tracker_live.launch
 ```
+
+A Rviz window will pop-up with the camera images. In the terminal window where you issued the roslaunch command, press the **S** key to start tracking. This will select a bounding box in the current frame to be tracked. You can press **S** again anytime to restart the tracking process.
 
 ## Bugs & Feature Requests
 
