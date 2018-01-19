@@ -130,9 +130,9 @@ Tracks a planar patch in a image.
 
    The sampling rate used to sample points used in the optimization process. 1.0 means 100% of the points are used.
 
-* **`reference_image_path`** (string, "$(find visual\_tracking)/imgs/ref\_img.png")
+* **`homography_type`** (string, default: "full")
 
-   Path to the reference image.
+   Specifies the type of homography to be considered by the optimization algorithm. The options are: "full", "affine" and "stretch".
 
 ## Usage ##
 

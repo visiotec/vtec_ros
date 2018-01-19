@@ -12,8 +12,8 @@ enum tracking_states{
    NOT_TRACKING,
    TRACKING
 };
-
-VTEC::IBGFullHomographyOptimizerCvWrapper ibg_optimizer;
+VTEC::IBGHomographyOptimizerCvWrapper * ibg_optimizer;
+// VTEC::IBGFullHomographyOptimizerCvWrapper ibg_optimizer;
 cv::Mat H;
 float alpha, beta;
 image_transport::Publisher *annotated_pub_ptr, *stabilized_pub_ptr, *reference_pub_ptr;
@@ -90,17 +90,17 @@ void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score,
  * @brief      Starts a tracking.
  */
 void start_tracking(){
-   // Initialize optimization variables
+
    H = cv::Mat::eye(3,3,CV_64F);
    H.at<double>(0,2) = BBOX_POS_X;
    H.at<double>(1,2) = BBOX_POS_Y;
-   ibg_optimizer.setHomography(H);
+   ibg_optimizer->setHomography(H);
    alpha = 1.0;
    beta = 0.0;
 
-   ibg_optimizer.setReferenceTemplate(cur_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
+   ibg_optimizer->setReferenceTemplate(cur_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
    cv::Mat reference_template;
-   ibg_optimizer.getReferenceTemplate(reference_template);
+   ibg_optimizer->getReferenceTemplate(reference_template);
 
    reference_template.convertTo(out_ref_template, CV_8U, 255.0);
 }
@@ -125,7 +125,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 
       double zncc = 0.0;
       
-      zncc = ibg_optimizer.optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
+      zncc = ibg_optimizer->optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
 
       bool force_reference_image_pub = false;
 
@@ -143,7 +143,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          beta = beta_test;
 
          cv::Mat current_template;
-         ibg_optimizer.getCurrentTemplate(current_template);
+         ibg_optimizer->getCurrentTemplate(current_template);
 
          cv::Mat out_cur_template;
          current_template.convertTo(out_cur_template, CV_8U, 255.0);
@@ -206,6 +206,7 @@ int main(int argc, char **argv)
    double PIXEL_KEEP_RATE;
    std::string reference_image_path;
    std::string image_topic = "camera/image";
+   std::string homography_type = "full";
 
    nhPrivate.param<int>("bbox_pos_x", BBOX_POS_X, 200);
    nhPrivate.param<int>("bbox_pos_y", BBOX_POS_Y, 150);
@@ -215,6 +216,9 @@ int main(int argc, char **argv)
    nhPrivate.param<int>("max_nb_pyr_level", MAX_NB_PYR_LEVEL, 2);
    nhPrivate.param<double>("sampling_rate", PIXEL_KEEP_RATE, 1.0);
    nhPrivate.getParam("image_topic", image_topic);
+   nhPrivate.getParam("homography_type", homography_type);
+
+
 
    // Register publisher
    image_transport::ImageTransport it(nh);
@@ -234,13 +238,22 @@ int main(int argc, char **argv)
 
    ros::Subscriber cmd_sub = nh.subscribe("track_cmd", 1, cmdCallback);
 
-   ibg_optimizer.initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
+   // Initialize the optimizer according to the homography type
+   if(homography_type == "affine"){
+      ibg_optimizer = new VTEC::IBGAffineHomographyOptimizerCvWrapper();
+   }else if(homography_type == "stretch"){
+      ibg_optimizer = new VTEC::IBGStretchHomographyOptimizerCvWrapper();
+   }else{
+      ibg_optimizer = new VTEC::IBGFullHomographyOptimizerCvWrapper();
+   }
+
+   ibg_optimizer->initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
 
    // // Start optimizer 
    H = cv::Mat::eye(3,3,CV_64F);
    H.at<double>(0,2) = BBOX_POS_X;
    H.at<double>(1,2) = BBOX_POS_Y;
-   ibg_optimizer.setHomography(H);
+   ibg_optimizer->setHomography(H);
    alpha = 1.0;
    beta = 0.0;
 

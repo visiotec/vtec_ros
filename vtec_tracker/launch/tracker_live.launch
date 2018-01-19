@@ -14,8 +14,8 @@
          <param name="frame_rate" value="60" />
          <param name="format7_roi_width" value="1280" />
          <param name="format7_roi_height" value="960" />
-         <param name="format7_x_offset" value="30" />
-         <param name="format7_y_offset" value="30" />
+         <param name="format7_x_offset" value="400" />
+         <param name="format7_y_offset" value="296" />
       </node>
 
       <node pkg="nodelet" type="nodelet" name="image_proc_debayer"
