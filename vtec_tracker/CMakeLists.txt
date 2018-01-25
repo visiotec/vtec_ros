@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
 	roscpp
 	image_transport
 	vtec_msgs
+	std_msgs
 )
 
 find_package(vtec)
@@ -26,3 +27,7 @@ include_directories(
 
 add_executable(ibgho_tracker_node src/ibgho_tracker_node.cpp)
 target_link_libraries(ibgho_tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES})
+
+add_executable(keyboard_control src/key_commands.cpp)
+target_link_libraries(keyboard_control ${catkin_LIBRARIES})
+

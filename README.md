@@ -2,6 +2,18 @@
 
 [ROS] packages from the VisioTec group
 
+## Video Examples ##
+
+Click on the thumbnails to watch the videos on YouTube.
+
+### Visual Tracking with Full 8-DOF Homography ###
+
+[![YouTube](https://img.youtube.com/vi/r7kZLqQ5xbI/0.jpg)](https://www.youtube.com/watch?v=r7kZLqQ5xbI)
+
+### Visual Tracking with Affine 6-DOF Homography ###
+
+[![YouTube](https://img.youtube.com/vi/W-7otD3THM4/0.jpg)](https://www.youtube.com/watch?v=W-7otD3THM4)
+
 ## Resources ##
 
 * Homepage: [https://sites.google.com/site/geraldofsilveira/]()
@@ -13,12 +25,12 @@ The technical report available [here]() describes the  tracker software and its 
 ```
 @TechReport{nogueira2017,
   author =  {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
-  title =   {VISIOTEC Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
+  title =   {{VISIOTEC} Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
+  number = {CTI-VTEC-TR-01-2017},
   institution = {CTI},
-  year =  {2017},
-  address =   {Brazil}
+  year = {2017},
+  address = {Brazil}
 }
-
 ```
 
 
@@ -130,9 +142,9 @@ Tracks a planar patch in a image.
 
    The sampling rate used to sample points used in the optimization process. 1.0 means 100% of the points are used.
 
-* **`reference_image_path`** (string, "$(find visual\_tracking)/imgs/ref\_img.png")
+* **`homography_type`** (string, default: "full")
 
-   Path to the reference image.
+   Specifies the type of homography to be considered by the optimization algorithm. The options are: "full", "affine" and "stretch".
 
 ## Usage ##
 
@@ -156,13 +168,13 @@ Now you should see in RViz the tracking process.
 
 ### Running from a live camera ###
 
-The tracker node needs a reference image. The images are located in the [imgs](vtec_tracker/imgs) folder. To start using the node, you can either use the provided [ref_img.png](vtec_tracker/imgs/ref_img.png) file, or use your own. The location of the reference image should be set using the `reference_image_path` parameter. Print the reference image so you can start playing with our tracker.
-
-After correctly selecting the reference image and setting the bounding box parameters, open a terminal window and launch the tracker node:
+Open a terminal window and launch the tracker node:
 
 ```
 roslaunch vtec_tracker tracker_live.launch
 ```
+
+A Rviz window will pop-up with the camera images. In the terminal window where you issued the roslaunch command, press the **S** key to start tracking. This will select a bounding box in the current frame to be tracked. You can press **S** again anytime to restart the tracking process.
 
 ## Bugs & Feature Requests
 

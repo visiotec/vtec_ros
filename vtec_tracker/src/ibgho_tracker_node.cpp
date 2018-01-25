@@ -6,23 +6,29 @@
 #include <cv_wrapper/vtec_opencv.h>
 #include <cv_wrapper/draw.h>
 #include <vtec_msgs/TrackingResult.h>
+#include <std_msgs/Char.h>
 
 enum tracking_states{
-   NOT_TRACKING,
-   TRACKING
+   STARTING=0,
+   NOT_TRACKING=1,
+   TRACKING=2
 };
-
-VTEC::IBGFullHomographyOptimizerCvWrapper ibg_optimizer;
+VTEC::IBGHomographyOptimizerCvWrapper * ibg_optimizer;
+// VTEC::IBGFullHomographyOptimizerCvWrapper ibg_optimizer;
 cv::Mat H;
 float alpha, beta;
 image_transport::Publisher *annotated_pub_ptr, *stabilized_pub_ptr, *reference_pub_ptr;
 ros::Publisher* results_pub_ptr;
 
-int state = NOT_TRACKING;
+int state = STARTING;
 int BBOX_SIZE_X, BBOX_SIZE_Y;
+int BBOX_POS_X, BBOX_POS_Y;
 
 ros::Time last_ref_pub_time;
 cv::Mat out_ref_template;
+
+bool start_command = false;
+cv::Mat cur_img;
 
 
 /**
@@ -82,16 +88,34 @@ void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score,
 }
 
 /**
+ * @brief      Starts a tracking.
+ */
+void start_tracking(){
+
+   H = cv::Mat::eye(3,3,CV_64F);
+   H.at<double>(0,2) = BBOX_POS_X;
+   H.at<double>(1,2) = BBOX_POS_Y;
+   ibg_optimizer->setHomography(H);
+   alpha = 1.0;
+   beta = 0.0;
+
+   ibg_optimizer->setReferenceTemplate(cur_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
+   cv::Mat reference_template;
+   ibg_optimizer->getReferenceTemplate(reference_template);
+
+   reference_template.convertTo(out_ref_template, CV_8U, 255.0);
+}
+
+/**
  * @brief      Callback to handle incoming images
  *
  * @param[in]  msg   The message
  */
 void imageCallback(const sensor_msgs::ImageConstPtr& msg)
 {   
-
    try
    {
-      cv::Mat cur_img = cv_bridge::toCvShare(msg, "mono8")->image;
+      cur_img = cv_bridge::toCvShare(msg, "mono8")->image;
       vtec_msgs::TrackingResult result_msg;
       result_msg.header = msg->header;
 
@@ -100,10 +124,22 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
       float beta_test = beta;
 
       double zncc = 0.0;
-      
-      zncc = ibg_optimizer.optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
 
-      if(state== NOT_TRACKING && zncc>0.7 || state == TRACKING && zncc > 0.4){
+      bool force_reference_image_pub = false;      
+
+      if(start_command){
+         ROS_INFO("Reference Image Selected");
+         start_command = false;
+         start_tracking();        
+         force_reference_image_pub = true;
+         state = TRACKING;
+      }
+
+      if(state != STARTING){
+         zncc = ibg_optimizer->optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
+      }
+
+      if(state== NOT_TRACKING && zncc>0.7 || state == TRACKING && zncc > 0.0 ){
 
          state = TRACKING;
          H = H_test;
@@ -111,7 +147,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          beta = beta_test;
 
          cv::Mat current_template;
-         ibg_optimizer.getCurrentTemplate(current_template);
+         ibg_optimizer->getCurrentTemplate(current_template);
 
          cv::Mat out_cur_template;
          current_template.convertTo(out_cur_template, CV_8U, 255.0);
@@ -121,26 +157,49 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y, cv::Scalar(0.0, 255.0, 0.0) );
          fillTrackingMsg(result_msg, zncc, H, alpha, beta, BBOX_SIZE_X, BBOX_SIZE_Y);
          results_pub_ptr->publish(result_msg);
+
+         if(ros::Time::now() - last_ref_pub_time > ros::Duration(5.0) || force_reference_image_pub){
+            sensor_msgs::ImagePtr reference_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", out_ref_template).toImageMsg();
+            reference_pub_ptr->publish(reference_msg);
+            last_ref_pub_time = ros::Time::now();
+         }  
          
-      }else{
+      }else if(state != STARTING){
          state = NOT_TRACKING;
+      }
+
+      if(state != TRACKING){
          VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y);
+         cv::putText(cur_img, "press S to start tracking", cv::Point(30,60), CV_FONT_HERSHEY_SIMPLEX, 1,(255,255,255), 3);         
       }
 
       sensor_msgs::ImagePtr annotaded_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
       annotaded_msg->header.frame_id = "camera";
       annotated_pub_ptr->publish(annotaded_msg);
 
-      if(ros::Time::now() - last_ref_pub_time > ros::Duration(5.0)){
-         sensor_msgs::ImagePtr reference_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", out_ref_template).toImageMsg();
-         reference_pub_ptr->publish(reference_msg);
-         last_ref_pub_time = ros::Time::now();
-      }
+   
       
    }
    catch (cv_bridge::Exception& e)
    {
       ROS_ERROR("Could not convert from '%s' to 'mono8'.", msg->encoding.c_str());
+   }
+}
+
+/**
+ * @brief      Callback for the keyboard command
+ *
+ * @param[in]  cmd_msg  The command message
+ */
+void cmdCallback(const std_msgs::Char cmd_msg){
+   switch(cmd_msg.data){
+      // S key
+      case 115:
+         ROS_INFO("(re)starting tracking");
+         start_command = true;
+         break;
+      default:
+         break;
    }
 }
 
@@ -151,12 +210,12 @@ int main(int argc, char **argv)
    ros::NodeHandle nhPrivate("~");
 
    // Tracker Parameters
-   int BBOX_POS_X, BBOX_POS_Y;
    int MAX_NB_ITERATION_PER_LEVEL;
    int MAX_NB_PYR_LEVEL;
    double PIXEL_KEEP_RATE;
    std::string reference_image_path;
    std::string image_topic = "camera/image";
+   std::string homography_type = "full";
 
    nhPrivate.param<int>("bbox_pos_x", BBOX_POS_X, 200);
    nhPrivate.param<int>("bbox_pos_y", BBOX_POS_Y, 150);
@@ -165,8 +224,8 @@ int main(int argc, char **argv)
    nhPrivate.param<int>("max_nb_iter_per_level", MAX_NB_ITERATION_PER_LEVEL, 5);
    nhPrivate.param<int>("max_nb_pyr_level", MAX_NB_PYR_LEVEL, 2);
    nhPrivate.param<double>("sampling_rate", PIXEL_KEEP_RATE, 1.0);
-   nhPrivate.getParam("reference_image_path", reference_image_path);
    nhPrivate.getParam("image_topic", image_topic);
+   nhPrivate.getParam("homography_type", homography_type);
 
    // Register publisher
    image_transport::ImageTransport it(nh);
@@ -184,27 +243,27 @@ int main(int argc, char **argv)
 
    image_transport::Subscriber sub = it.subscribe(image_topic, 1, imageCallback);
 
-   // Start optimizer 
-   ibg_optimizer.initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
-   
-   // Set reference template
-   ROS_INFO_STREAM("Reference Path: " << reference_image_path);
-   cv::Mat base_img = cv::imread(reference_image_path, CV_LOAD_IMAGE_GRAYSCALE);
-   ibg_optimizer.setReferenceTemplate(base_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
+   ros::Subscriber cmd_sub = nh.subscribe("track_cmd", 1, cmdCallback);
 
-   // Display the reference template
-   cv::Mat reference_template;
-   ibg_optimizer.getReferenceTemplate(reference_template);
+   // Initialize the optimizer according to the homography type
+   if(homography_type == "affine"){
+      ibg_optimizer = new VTEC::IBGAffineHomographyOptimizerCvWrapper();
+   }else if(homography_type == "stretch"){
+      ibg_optimizer = new VTEC::IBGStretchHomographyOptimizerCvWrapper();
+   }else{
+      ibg_optimizer = new VTEC::IBGFullHomographyOptimizerCvWrapper();
+   }
 
-   reference_template.convertTo(out_ref_template, CV_8U, 255.0);
+   ibg_optimizer->initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
 
-   // Initialize optimization variables
+   // // Start optimizer 
    H = cv::Mat::eye(3,3,CV_64F);
-   H.at<double>(0,2) = 200;
-   H.at<double>(1,2) = 200;
-   ibg_optimizer.setHomography(H);
+   H.at<double>(0,2) = BBOX_POS_X;
+   H.at<double>(1,2) = BBOX_POS_Y;
+   ibg_optimizer->setHomography(H);
    alpha = 1.0;
    beta = 0.0;
+
    last_ref_pub_time = ros::Time::now();
 
    ros::spin();
