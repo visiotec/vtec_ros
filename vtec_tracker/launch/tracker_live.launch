@@ -11,7 +11,7 @@
       <node pkg="nodelet" type="nodelet" name="camera_nodelet"
           args="load pointgrey_camera_driver/PointGreyCameraNodelet camera_nodelet_manager" >
          <param name="frame_id" value="camera_link" />
-         <param name="frame_rate" value="60" />
+         <param name="frame_rate" value="30" />
          <param name="format7_roi_width" value="1280" />
          <param name="format7_roi_height" value="960" />
          <param name="format7_x_offset" value="400" />

@@ -2,6 +2,16 @@
 
 [ROS] packages from the VisioTec group
 
+## Video Examples ##
+
+### Visual Tracking with Full 8-DOF Homography ###
+
+[![YouTube](https://img.youtube.com/vi/r7kZLqQ5xbI/0.jpg)](https://www.youtube.com/watch?v=r7kZLqQ5xbI)
+
+### Visual Tracking with Affine 6-DOF Homography ###
+
+[![YouTube](https://img.youtube.com/vi/W-7otD3THM4/0.jpg)](https://www.youtube.com/watch?v=W-7otD3THM4)
+
 ## Resources ##
 
 * Homepage: [https://sites.google.com/site/geraldofsilveira/]()

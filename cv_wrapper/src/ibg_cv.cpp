@@ -40,9 +40,7 @@ double VTEC::IBGHomographyOptimizerCvWrapper::optimize(const cv::Mat & curr_imag
    v_H[7] = H.at<double>(2,1);
    v_H[8] = H.at<double>(2,2);
    
-   std::cout << "starting optimize" << std::endl;
    double score = optimizer->optimize(v_image, v_H, alpha, beta, predictor);
-   std::cout << "end optimize" << std::endl;
 
    H.at<double>(0,0) = v_H[0];
    H.at<double>(0,1) = v_H[1];
@@ -53,8 +51,6 @@ double VTEC::IBGHomographyOptimizerCvWrapper::optimize(const cv::Mat & curr_imag
    H.at<double>(2,0) = v_H[6];
    H.at<double>(2,1) = v_H[7];
    H.at<double>(2,2) = v_H[8];
-
-   std::cout << "copied H" << std::endl;
 
    return score;
 }
