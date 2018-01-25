@@ -4,6 +4,8 @@
 
 ## Video Examples ##
 
+Click on the thumbnails to watch the videos on YouTube.
+
 ### Visual Tracking with Full 8-DOF Homography ###
 
 [![YouTube](https://img.youtube.com/vi/r7kZLqQ5xbI/0.jpg)](https://www.youtube.com/watch?v=r7kZLqQ5xbI)
