@@ -20,7 +20,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-The technical report available [here]() describes the  tracker software and its working principles. If you use this software in an academic context, please cite the technical report, using:
+The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_RR.pdf) describes the  tracker software and its working principles. If you use this software in an academic context, please cite the technical report, using:
 
 ```
 @TechReport{nogueira2017,
@@ -150,7 +150,7 @@ Tracks a planar patch in a image.
 
 ### Runnning with a dataset ###
 
-Download the dataset from here: [dataset](https://www.dropbox.com/s/uhzg6rlk92zzxou/vtec_tracker_test.bag?dl=0)
+Download the dataset from here: [dataset](https://www.dropbox.com/s/zy829r6nrdqh4y6/vtec_test_tracker.bag?dl=0)
 
 Open a terminal window and launch the tracker node with:
 
