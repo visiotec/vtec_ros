@@ -1,22 +1,18 @@
 # vtec_ros #
 
-[ROS] packages from the VisioTec group
+[ROS] Kinetic packages from the VisioTec group
 
 ## Video Examples ##
 
 Click on the thumbnails to watch the videos on YouTube.
 
-### Visual Tracking with Full 8-DOF Homography ###
+* Visual Tracking with Full 8-DOF Homography
 
 [![YouTube](https://img.youtube.com/vi/r7kZLqQ5xbI/0.jpg)](https://www.youtube.com/watch?v=r7kZLqQ5xbI)
 
-### Visual Tracking with Affine 6-DOF Homography ###
+* Visual Tracking with Affine 6-DOF Homography
 
 [![YouTube](https://img.youtube.com/vi/W-7otD3THM4/0.jpg)](https://www.youtube.com/watch?v=W-7otD3THM4)
-
-## Resources ##
-
-* Homepage: [https://sites.google.com/site/geraldofsilveira/]()
 
 ## Documentation and Citing ##
 
@@ -176,10 +172,16 @@ roslaunch vtec_tracker tracker_live.launch
 
 A Rviz window will pop-up with the camera images. In the terminal window where you issued the roslaunch command, press the **S** key to start tracking. This will select a bounding box in the current frame to be tracked. You can press **S** again anytime to restart the tracking process.
 
+## Resources ##
+
+* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf)
+* VisioTec C++ Libraries: [https://github.com/lukscasanova/vtec_ros](https://github.com/lukscasanova/vtec)
+* Geraldo Silveira's website: [https://sites.google.com/site/geraldofsilveira/](https://sites.google.com/site/geraldofsilveira/)
+
+
 ## Bugs & Feature Requests
 
 Please report bugs and request features using the [Issue Tracker](https://github.com/lukscasanova/vtec_ros/issues).
-
 
 [ROS]: http://www.ros.org
 [sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
