@@ -13,8 +13,9 @@ enum tracking_states{
    NOT_TRACKING=1,
    TRACKING=2
 };
-VTEC::IBGHomographyOptimizerCvWrapper * ibg_optimizer;
-// VTEC::IBGFullHomographyOptimizerCvWrapper ibg_optimizer;
+
+VTEC::IBGHomographyOptimizerCvWrapper* ibg_optimizer;
+
 cv::Mat H;
 float alpha, beta;
 image_transport::Publisher *annotated_pub_ptr, *stabilized_pub_ptr, *reference_pub_ptr;
@@ -29,7 +30,6 @@ cv::Mat out_ref_template;
 
 bool start_command = false;
 cv::Mat cur_img;
-
 
 /**
  * @brief      Fills a vtec_msgs/TrackingResult message
@@ -97,7 +97,7 @@ void start_tracking(){
    H.at<double>(1,2) = BBOX_POS_Y;
    ibg_optimizer->setHomography(H);
    alpha = 1.0;
-   beta = 0.0;
+   beta  = 0.0;
 
    ibg_optimizer->setReferenceTemplate(cur_img, BBOX_POS_X, BBOX_POS_Y, BBOX_SIZE_X, BBOX_SIZE_Y);
    cv::Mat reference_template;
@@ -139,7 +139,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          zncc = ibg_optimizer->optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
       }
 
-      if(state== NOT_TRACKING && zncc>0.7 || state == TRACKING && zncc > 0.0 ){
+      if(state == NOT_TRACKING && zncc>0.7 || state == TRACKING && zncc > 0.0 ){
 
          state = TRACKING;
          H = H_test;
@@ -173,11 +173,9 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
          cv::putText(cur_img, "press S to start tracking", cv::Point(30,60), CV_FONT_HERSHEY_SIMPLEX, 1,(255,255,255), 3);         
       }
 
-      sensor_msgs::ImagePtr annotaded_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
-      annotaded_msg->header.frame_id = "camera";
-      annotated_pub_ptr->publish(annotaded_msg);
-
-   
+      sensor_msgs::ImagePtr annotated_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
+      annotated_msg->header.frame_id = "camera";
+      annotated_pub_ptr->publish(annotated_msg);
       
    }
    catch (cv_bridge::Exception& e)
@@ -256,13 +254,13 @@ int main(int argc, char **argv)
 
    ibg_optimizer->initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
 
-   // // Start optimizer 
+   // Start optimizer 
    H = cv::Mat::eye(3,3,CV_64F);
    H.at<double>(0,2) = BBOX_POS_X;
    H.at<double>(1,2) = BBOX_POS_Y;
    ibg_optimizer->setHomography(H);
    alpha = 1.0;
-   beta = 0.0;
+   beta  = 0.0;
 
    last_ref_pub_time = ros::Time::now();
 
