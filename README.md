@@ -1,34 +1,35 @@
-# vtec_ros #
+# VisioTec ROS Packages
 
-[ROS] Kinetic packages from the VisioTec group
+[ROS] Kinetic packages developed at the VisioTec research group of the CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/).
+
 
 ## Video Examples ##
 
 Click on the thumbnails to watch the videos on YouTube.
 
-* Visual Tracking with Full 8-DOF Homography
+* Intensity-based visual tracking with full 8-DoF homography
 
 [![YouTube](https://img.youtube.com/vi/r7kZLqQ5xbI/0.jpg)](https://www.youtube.com/watch?v=r7kZLqQ5xbI)
 
-* Visual Tracking with Affine 6-DOF Homography
+* Intensity-based visual tracking with affine 6-DoF homography
 
 [![YouTube](https://img.youtube.com/vi/W-7otD3THM4/0.jpg)](https://www.youtube.com/watch?v=W-7otD3THM4)
 
+
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the  tracker software and its working principles. If you use this software in an academic context, please cite the technical report, using:
+The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
 
 ```
 @TechReport{nogueira2017,
-  author =  {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
-  title =   {{VISIOTEC} Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
+  author = {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
+  title  = {{VISIOTEC} Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
   number = {CTI-VTEC-TR-01-2017},
   institution = {CTI},
   year = {2017},
   address = {Brazil}
 }
 ```
-
 
 ## Installation ##
 
@@ -39,7 +40,6 @@ Install the usb_cam driver from ROS repositories.
 ```
 sudo apt-get install ros-kinetic-usb-cam
 ```
-
 
 ### Build ###
 Setup a ROS workspace.
