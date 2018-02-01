@@ -74,7 +74,7 @@ source devel/setup.bash
 ## Nodes ##
 
 
-### tracker_node ###
+### ibgho_tracker_node ###
 
 Tracks a planar object in an image sequence.
 
