@@ -20,7 +20,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_RR.pdf) describes the  tracker software and its working principles. If you use this software in an academic context, please cite the technical report, using:
+The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the  tracker software and its working principles. If you use this software in an academic context, please cite the technical report, using:
 
 ```
 @TechReport{nogueira2017,
