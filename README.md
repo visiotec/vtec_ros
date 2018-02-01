@@ -76,7 +76,7 @@ source devel/setup.bash
 
 ### tracker_node ###
 
-Tracks a planar patch in a image.
+Tracks a planar object in an image sequence.
 
 #### Subscribed Topics
 
