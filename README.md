@@ -1,6 +1,6 @@
 # VisioTec ROS Packages
 
-[ROS] Kinetic packages developed at the VisioTec research group of the CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/).
+[ROS] Kinetic packages developed at the VisioTec research group of the CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/talks#TOC-Project-VISIOTEC-in-5-slides).
 
 
 ## Video Examples ##
@@ -48,7 +48,7 @@ Setup a ROS workspace.
 mkdir -p ~/catkin_ws/src
 ```
 
-Install the vtec cpp library
+Install the VisioTec Library
 
 ```
 cd ~/catkin_ws/src
@@ -144,20 +144,20 @@ Tracks a planar object in an image sequence.
 
 ## Usage ##
 
-### Runnning with a dataset ###
+### Running with a dataset ###
 
 Download the dataset from here: [dataset](https://www.dropbox.com/s/kxv9ahrxhvgebja/vtec_test_tracker.bag?dl=0)
 
-Open a terminal window and launch the tracker node with:
+Open two terminal windows, and launch in the first one the tracker node with:
 
 ```
 roslaunch vtec_tracker tracker.launch
 ```
 
-In another terminal, play the downloaded bagfile with:
+In the other terminal, navigate to the directory where you downloaded the dataset, and play the downloaded bagfile with:
 
 ```
-rosbag play vtec_tracker_test.bag
+rosbag play vtec_test_tracker.bag
 ```
 
 Now you should see in RViz the tracking process.
