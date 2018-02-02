@@ -185,4 +185,4 @@ Please report bugs and request features using the [Issue Tracker](https://github
 
 [ROS]: http://www.ros.org
 [sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
-[vtec_tracker/TrackingResult]: vtec_tracker/msg/TrackingResult.msg
+[vtec_tracker/TrackingResult]: vtec_msgs/msg/TrackingResult.msg
