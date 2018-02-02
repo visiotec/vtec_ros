@@ -31,6 +31,7 @@ The technical report available [here](https://github.com/lukscasanova/vtec/blob/
 }
 ```
 
+
 ## Installation ##
 
 ### Dependencies ###
@@ -70,9 +71,7 @@ catkin_make
 source devel/setup.bash
 ```
 
-
 ## Nodes ##
-
 
 ### ibgho_tracker_node ###
 
@@ -83,7 +82,6 @@ Tracks a planar object in an image sequence.
 * **`camera/image`** ([sensor_msgs/Image])
 
    The incoming image stream from the camera.
-
 
 #### Published Topics
 
@@ -142,6 +140,7 @@ Tracks a planar object in an image sequence.
 
    Specifies the type of homography to be considered by the optimization algorithm. The options are: "full", "affine" and "stretch".
 
+
 ## Usage ##
 
 ### Running with a dataset ###
@@ -160,7 +159,7 @@ In the other terminal, navigate to the directory where you downloaded the datase
 rosbag play vtec_test_tracker.bag
 ```
 
-Now you should see in RViz the tracking process.
+Now you should see in RViz the tracking process using the default parameters from the launch file.
 
 ### Running from a live camera ###
 
@@ -171,6 +170,7 @@ roslaunch vtec_tracker tracker_live.launch
 ```
 
 A Rviz window will pop-up with the camera images. In the terminal window where you issued the roslaunch command, press the **S** key to start tracking. This will select a bounding box in the current frame to be tracked. You can press **S** again anytime to restart the tracking process.
+
 
 ## Resources ##
 
@@ -186,4 +186,3 @@ Please report bugs and request features using the [Issue Tracker](https://github
 [ROS]: http://www.ros.org
 [sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
 [vtec_tracker/TrackingResult]: vtec_tracker/msg/TrackingResult.msg
-
