@@ -153,7 +153,7 @@ Open two terminal windows, and launch in the first one the tracker node with:
 roslaunch vtec_tracker tracker.launch
 ```
 
-In the other terminal, navigate to the directory where you downloaded the dataset, and play the downloaded bagfile with:
+In the other terminal, navigate to the directory where you downloaded the dataset, and play the bagfile with:
 
 ```
 rosbag play vtec_test_tracker.bag
