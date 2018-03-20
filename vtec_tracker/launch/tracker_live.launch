@@ -1,9 +1,7 @@
 <launch>
    <arg name="use_ptgrey" default="false" />
-   <arg name="reference_image_path" default="$(find vtec_tracker)/imgs/ref_img.png" />
-
+   
    <!-- Camera Nodes -->
-
    <!-- Point Grey -->
    <group if="$(arg use_ptgrey)" ns="usb_cam">
       <node pkg="nodelet" type="nodelet" name="camera_nodelet_manager" args="manager" />
@@ -36,7 +34,5 @@
    </group>
    
    <!-- Tracker Nodes -->
-   <include file="$(find vtec_tracker)/launch/tracker.launch">
-      <arg name="reference_image_path" value="$(arg reference_image_path)"/>
-   </include>
+   <include file="$(find vtec_tracker)/launch/tracker.launch"/>
 </launch>

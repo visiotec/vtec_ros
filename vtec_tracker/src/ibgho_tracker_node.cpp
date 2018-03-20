@@ -212,7 +212,7 @@ int main(int argc, char **argv)
    int MAX_NB_PYR_LEVEL;
    double PIXEL_KEEP_RATE;
    std::string reference_image_path;
-   std::string image_topic = "camera/image";
+   std::string image_topic = "usb_cam/image_raw";
    std::string homography_type = "full";
 
    nhPrivate.param<int>("bbox_pos_x", BBOX_POS_X, 200);

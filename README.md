@@ -89,7 +89,6 @@ Tracks a planar object in an image sequence.
 
    The image stream annotaded with the tracked image region and the score.
 
-
 * **`stabilized_image`** ([sensor_msgs/Image])
 
    The warped image patch from the image stream, that tries to match to the reference image patch.
@@ -104,7 +103,7 @@ Tracks a planar object in an image sequence.
 
 #### Parameters
 
-* **`image_topic`** (string, default: "camera/image")
+* **`image_topic`** (string, default: "usb_cam/image_raw")
 
    The name of the image input topic.
 
