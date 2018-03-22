@@ -1,4 +1,4 @@
-#include <cv_wrapper/ibg_cv.h>
+ #include <cv_wrapper/ibg_cv.h>
 #include <vtec_core/image.h>
 #include <homography_optimizer/types.h>
 #include <cv_wrapper/vtec_opencv.h>
