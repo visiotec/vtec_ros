@@ -1,6 +1,6 @@
 # VisioTec ROS Packages
 
-[ROS] Kinetic packages developed at the VisioTec research group of the CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/talks#TOC-Project-VISIOTEC-in-5-slides).
+[ROS] (Kinetic) packages developed at the VisioTec research group of the CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/talks#TOC-Project-VISIOTEC-in-5-slides).
 
 
 ## Video Examples ##
@@ -34,6 +34,8 @@ The technical report available [here](https://github.com/lukscasanova/vtec/blob/
 
 ## Installation ##
 
+These packages were tested on ROS Kinetic and Ubuntu 16.04.
+
 ### Dependencies ###
 
 Install the usb_cam driver from ROS repositories.
@@ -49,7 +51,7 @@ Setup a ROS workspace.
 mkdir -p ~/catkin_ws/src
 ```
 
-Install the VisioTec Library
+Install the VisioTec Library. It is a standalone cpp library, non-ROS.
 
 ```
 cd ~/catkin_ws/src
