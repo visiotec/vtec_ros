@@ -179,7 +179,7 @@ In the other terminal, navigate to the directory where you downloaded the datase
 
 ```
 rosbag decompress vtec_tracker_theater.bag
-rosbag play vtec_test_tracker.bag
+rosbag play vtec_tracker_theater.bag
 ```
 
 Now you should see in RViz the tracking process using the default parameters from the launch file.
