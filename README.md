@@ -51,7 +51,7 @@ Setup a ROS workspace.
 mkdir -p ~/catkin_ws/src
 ```
 
-Install the VisioTec Library. It is a standalone cpp library, non-ROS.
+Install the VisioTec Library. It is a standalone cpp library, non-ROS.s
 
 ```
 cd ~/catkin_ws/src
@@ -146,7 +146,9 @@ Tracks a planar object in an image sequence.
 
 ### Running with a dataset ###
 
-Download the dataset from here: [dataset](https://www.dropbox.com/s/kxv9ahrxhvgebja/vtec_test_tracker.bag?dl=0)
+#### Newspaper Dataset ####
+
+Download the dataset from here: [newspaper dataset](https://www.dropbox.com/s/kxv9ahrxhvgebja/vtec_test_tracker.bag?dl=0)
 
 Open two terminal windows, and launch in the first one the tracker node with:
 
@@ -154,13 +156,34 @@ Open two terminal windows, and launch in the first one the tracker node with:
 roslaunch vtec_tracker tracker.launch
 ```
 
-In the other terminal, navigate to the directory where you downloaded the dataset, and play the bagfile with:
+In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
 
 ```
+rosbag decompress vtec_test_tracker.bag
 rosbag play vtec_test_tracker.bag
 ```
 
 Now you should see in RViz the tracking process using the default parameters from the launch file.
+
+#### Theater Dataset ####
+
+Download the dataset from here: [theater dataset](https://www.dropbox.com/s/rqz14fa8epjnpmr/vtec_tracker_theater.bag?dl=0)
+
+Open two terminal windows, and launch in the first one the tracker node with:
+
+```
+roslaunch vtec_tracker tracker.launch config_file:=config_theater.yaml
+```
+
+In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
+
+```
+rosbag decompress vtec_tracker_theater.bag
+rosbag play vtec_test_tracker.bag
+```
+
+Now you should see in RViz the tracking process using the default parameters from the launch file.
+
 
 ### Running from a live camera ###
 
