@@ -1,6 +1,7 @@
 <launch>
   <arg name="show_rviz" default="true"/>
   <arg name="config_file" default="config.yaml"/>
+
   <!-- Tracker Nodes-->
   <node name="ibgho_tracker_node" pkg="vtec_tracker" type="ibgho_tracker_node" output="screen">
     <rosparam command="load" file="$(find vtec_tracker)/config/$(arg config_file)"/>

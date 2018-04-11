@@ -167,7 +167,7 @@ Now you should see in RViz the tracking process using the default parameters fro
 
 #### Theater Dataset ####
 
-Download the dataset from here: [theater dataset](https://www.dropbox.com/s/rqz14fa8epjnpmr/vtec_tracker_theater.bag?dl=0)
+Download the dataset from here: [theater dataset](https://www.dropbox.com/s/hjbxhzb4k54ff9a/vtec_tracker_theater.bag?dl=0)
 
 Open two terminal windows, and launch in the first one the tracker node with:
 
