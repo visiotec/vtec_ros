@@ -10,10 +10,16 @@
           args="load pointgrey_camera_driver/PointGreyCameraNodelet camera_nodelet_manager" >
          <param name="frame_id" value="camera_link" />
          <param name="frame_rate" value="30" />
-         <param name="format7_roi_width" value="1280" />
-         <param name="format7_roi_height" value="960" />
-         <param name="format7_x_offset" value="400" />
-         <param name="format7_y_offset" value="296" />
+         <param name="format7_roi_width" value="640" />
+         <param name="format7_roi_height" value="480" />
+         <param name="format7_x_offset" value="720" />
+         <param name="format7_y_offset" value="536" />
+         <param name="auto_gain" value="false"/>
+         <param name="auto_exposure" value="false"/>
+         <param name="auto_saturation" value="false"/>
+         <param name="auto_sharpness" value="false"/>
+         <param name="auto_shutter" value="false"/>
+         <param name="auto_white_balance" value="false"/>
       </node>
 
       <node pkg="nodelet" type="nodelet" name="image_proc_debayer"
@@ -34,5 +40,8 @@
    </group>
    
    <!-- Tracker Nodes -->
-   <include file="$(find vtec_tracker)/launch/tracker.launch"/>
+   <include file="$(find vtec_tracker)/launch/tracker.launch">
+      <!-- <arg name="config_file" value="config_theater.yaml"/> -->
+   </include>
+
 </launch>
