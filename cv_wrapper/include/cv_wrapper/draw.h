@@ -1,3 +1,5 @@
+#ifndef VTEC_CV_WRAPPER_DRAW_H
+#define VTEC_CV_WRAPPER_DRAW_H
 namespace VTEC{
 
 /**
@@ -38,3 +40,4 @@ void drawResult(cv::Mat& image, cv::Mat H, double score, int bbox_size_x, int bb
 }
 
 } /* namespace VTEC */
+#endif /* VTEC_CV_WRAPPER_DRAW_H */
