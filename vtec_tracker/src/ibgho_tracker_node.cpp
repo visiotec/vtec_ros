@@ -32,6 +32,8 @@ cv::Mat out_ref_template;
 bool start_command = false;
 cv::Mat cur_img;
 
+int image_index = 0;
+
 /**
  * @brief      Fills a vtec_msgs/TrackingResult message
  *
@@ -139,7 +141,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
       zncc = ibg_optimizer->optimize(cur_img, H_test, alpha_test, beta_test, VTEC::ZNCC_PREDICTOR);
     }
 
-    if (state == NOT_TRACKING && zncc > 0.7 || state == TRACKING && zncc > 0.0)
+    if (state == NOT_TRACKING && zncc > 0.5 || state == TRACKING && zncc > 0.0)
     {
       state = TRACKING;
       H = H_test;

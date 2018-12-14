@@ -14,6 +14,7 @@ public:
   /**
    * @brief      Constructor
    */
+
   IBGHomographyOptimizerCvWrapper();
 
   /**
@@ -85,6 +86,13 @@ public:
    * @param[in]  H     the Homography matrix.
    */
   void setHomography(const cv::Mat H);
+
+  /**
+   * @brief      Gets the homography.
+   *
+   * @param      H     the homography
+   */
+  void getHomography(cv::Mat& H);
 
 protected:
   IBGHomographyOptimizer* optimizer;

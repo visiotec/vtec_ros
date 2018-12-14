@@ -93,7 +93,6 @@ void VTEC::IBGHomographyOptimizerCvWrapper::setHomography(const cv::Mat H)
 {
   VTEC::Homography vtec_h;
   cv2vtecHomography(H, vtec_h);
-
   return optimizer->setHomography(vtec_h);
 }
 
@@ -109,4 +108,11 @@ void VTEC::IBGHomographyOptimizerCvWrapper::getReferenceTemplate(cv::Mat& img)
   VTEC::Image vtec_template;
   optimizer->getReferenceTemplate(vtec_template);
   vtec2cvImg(vtec_template, img);
+}
+
+void VTEC::IBGHomographyOptimizerCvWrapper::getHomography(cv::Mat& H)
+{
+  VTEC::Homography vtec_h;
+  optimizer->getHomography(vtec_h);
+  vtec2cvHomography(vtec_h, H);
 }
