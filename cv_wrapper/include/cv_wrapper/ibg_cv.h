@@ -8,13 +8,14 @@
 
 namespace VTEC{
 
-class IBGHomographyOptimizerCvWrapper : public HomographyOptimizerInterface{
-public:
+  class IBGHomographyOptimizerCvWrapper : public HomographyOptimizerInterface{
+  public:
 
    /**
     * @brief      Constructor
     */
-   IBGHomographyOptimizerCvWrapper();
+
+    IBGHomographyOptimizerCvWrapper();
 
    /**
     * @brief      Initiliazation of the optimizer
@@ -23,7 +24,7 @@ public:
     * @param[in]  max_nb_pyr_level  The maximum number of pyr level
     * @param[in]  sampling_rate     The sampling rate
     */
-   virtual void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate)=0; 
+    virtual void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate)=0; 
 
    /**
     * @brief      Sets the reference template.
@@ -36,9 +37,9 @@ public:
     *
     * @return     true if success, false otherwise
     */
-   bool setReferenceTemplate(const cv::Mat& ref_image, 
+    bool setReferenceTemplate(const cv::Mat& ref_image, 
       const int posx, const int posy, const int sizex, const int sizey);
-            
+
    /**
     * @brief      Optimization function
     *
@@ -50,44 +51,52 @@ public:
     *
     * @return     the ZNCC score
     */
-   double optimize(const cv::Mat & curr_image, cv::Mat& H, float & alpha, float & beta, int predictor);
+    double optimize(const cv::Mat & curr_image, cv::Mat& H, float & alpha, float & beta, int predictor);
 
    /**
     * @brief      Gets the number of iterations.
     *
     * @return     The number of iterations.
     */
-   std::vector<int> getNbIterations();
+    std::vector<int> getNbIterations();
 
    /**
     * @brief      Gets the homography sequence.
     *
     * @return     The homography sequence.
     */
-   std::vector<cv::Mat> getHomographySequence();
+    std::vector<cv::Mat> getHomographySequence();
 
    /**
     * @brief      Gets the current template.
     *
     * @param      img   The image
     */
-   void getCurrentTemplate(cv::Mat& img);
+    void getCurrentTemplate(cv::Mat& img);
 
    /**
     * @brief      Gets the reference template.
     *
     * @param      img   The image
     */
-   void getReferenceTemplate(cv::Mat& img);    
+    void getReferenceTemplate(cv::Mat& img);    
 
    /**
     * @brief      Sets the homography.
     *
     * @param[in]  H     the Homography matrix.
     */
-   void setHomography(const cv::Mat H);     
+    void setHomography(const cv::Mat H);  
 
-protected:
+
+    /**
+     * @brief      Gets the homography.
+     *
+     * @param      H     the homography
+     */
+    void getHomography(cv::Mat& H);
+
+  protected:
 
    IBGHomographyOptimizer* optimizer;
 
@@ -95,43 +104,43 @@ protected:
 
 }; /* class IBGHomographyOptimizerCvWrapper */
 
-class IBGFullHomographyOptimizerCvWrapper : public IBGHomographyOptimizerCvWrapper{
-public:
+   class IBGFullHomographyOptimizerCvWrapper : public IBGHomographyOptimizerCvWrapper{
+   public:
 
-   IBGFullHomographyOptimizerCvWrapper(){}
+     IBGFullHomographyOptimizerCvWrapper(){}
 
-   void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate){
+     void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate){
       optimizer = new IBGFullHomographyOptimizer();
       optimizer->initialize(max_nb_iter, max_nb_pyr_level, sampling_rate);
       initialized_ = true;
-   }
+    }
 
 }; /* class IBGFullHomographyOptimizerCvWrapper */
 
-class IBGAffineHomographyOptimizerCvWrapper : public IBGHomographyOptimizerCvWrapper{
-public:
+    class IBGAffineHomographyOptimizerCvWrapper : public IBGHomographyOptimizerCvWrapper{
+    public:
 
-   IBGAffineHomographyOptimizerCvWrapper(){}
+     IBGAffineHomographyOptimizerCvWrapper(){}
 
-   void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate){
+     void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate){
       optimizer = new IBGAffineHomographyOptimizer();
       optimizer->initialize(max_nb_iter, max_nb_pyr_level, sampling_rate);            
       initialized_ = true;
-   }
+    }
 
 }; /* class IBGAffineHomographyOptimizerCvWrapper */
 
-class IBGStretchHomographyOptimizerCvWrapper : public IBGHomographyOptimizerCvWrapper{
-public:
+    class IBGStretchHomographyOptimizerCvWrapper : public IBGHomographyOptimizerCvWrapper{
+    public:
 
-   IBGStretchHomographyOptimizerCvWrapper(){}
+     IBGStretchHomographyOptimizerCvWrapper(){}
 
-   void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate){
+     void initialize(const int max_nb_iter,const int max_nb_pyr_level,const double sampling_rate){
       optimizer = new IBGStretchHomographyOptimizer();
       optimizer->initialize(max_nb_iter, max_nb_pyr_level, sampling_rate);
       initialized_ = true;
-   }
-   
+    }
+
 }; /* class IBGStretchHomographyOptimizerCvWrapper */   
 } /* namespace VTEC */
 
