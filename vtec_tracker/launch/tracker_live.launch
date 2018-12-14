@@ -1,6 +1,6 @@
 <launch>
    <arg name="use_ptgrey" default="false" />
-   
+
    <!-- Camera Nodes -->
    <!-- Point Grey -->
    <group if="$(arg use_ptgrey)" ns="usb_cam">
@@ -26,7 +26,7 @@
          args="load image_proc/debayer camera_nodelet_manager">
       </node>
    </group>
-   
+
    <!-- Common Webcam -->
    <group unless="$(arg use_ptgrey)" >
       <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
@@ -38,7 +38,7 @@
          <param name="io_method" value="mmap"/>
       </node>
    </group>
-   
+
    <!-- Tracker Nodes -->
    <include file="$(find vtec_tracker)/launch/tracker.launch">
       <!-- <arg name="config_file" value="config_theater.yaml"/> -->
