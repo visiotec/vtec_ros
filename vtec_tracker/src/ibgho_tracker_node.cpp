@@ -221,6 +221,7 @@ int main(int argc, char** argv)
   std::string reference_image_path;
   std::string image_topic = "usb_cam/image_raw";
   std::string homography_type = "full";
+  bool robust_flag = false;
 
   nhPrivate.param<int>("bbox_pos_x", BBOX_POS_X, 200);
   nhPrivate.param<int>("bbox_pos_y", BBOX_POS_Y, 150);
@@ -231,6 +232,7 @@ int main(int argc, char** argv)
   nhPrivate.param<double>("sampling_rate", PIXEL_KEEP_RATE, 1.0);
   nhPrivate.getParam("image_topic", image_topic);
   nhPrivate.getParam("homography_type", homography_type);
+  nhPrivate.getParam("robust_flag", robust_flag);
 
   // Register publisher
   image_transport::ImageTransport it(nh);
@@ -265,6 +267,7 @@ int main(int argc, char** argv)
   }
 
   ibg_optimizer->initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
+  ibg_optimizer->setRobustFlag(robust_flag);
 
   // Start optimizer
   H = cv::Mat::eye(3, 3, CV_64F);

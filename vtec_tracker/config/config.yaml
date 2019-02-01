@@ -6,3 +6,4 @@ bbox_pos_y: 100
 max_nb_pyr_level: 3
 sampling_rate: 1.0
 homography_type: full
+robust_flag: true
