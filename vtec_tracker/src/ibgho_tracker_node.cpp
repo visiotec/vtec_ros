@@ -1,12 +1,10 @@
 #include <cv_bridge/cv_bridge.h>
-#include <cv_wrapper/draw.h>
-#include <cv_wrapper/ibg_cv.h>
-#include <cv_wrapper/vtec_opencv.h>
 #include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <ros/ros.h>
 #include <std_msgs/Char.h>
 #include <vtec_msgs/TrackingResult.h>
+#include <homography_optimizer/ibg.h>
 
 enum tracking_states
 {
@@ -15,7 +13,7 @@ enum tracking_states
   TRACKING = 2
 };
 
-VTEC::IBGHomographyOptimizerCvWrapper* ibg_optimizer;
+VTEC::IBGHomographyOptimizer* ibg_optimizer;
 
 cv::Mat H;
 float alpha, beta;
@@ -48,7 +46,7 @@ int image_index = 0;
 void fillTrackingMsg(vtec_msgs::TrackingResult& msg, const double score, const cv::Mat& H, const float alpha,
                      const float beta, int bbox_size_x, int bbox_size_y)
 {
-  cv::Point p1(0, 0), p2(0, bbox_size_y), p3(bbox_size_x, 0), p4(bbox_size_x, bbox_size_y);
+  cv::Point2f p1(0, 0), p2(0, bbox_size_y), p3(bbox_size_x, 0), p4(bbox_size_x, bbox_size_y);
   VTEC::warpPoints(p1, H);
   VTEC::warpPoints(p2, H);
   VTEC::warpPoints(p3, H);
@@ -103,7 +101,7 @@ void start_tracking()
   cv::Mat reference_template;
   ibg_optimizer->getReferenceTemplate(reference_template);
 
-  reference_template.convertTo(out_ref_template, CV_8U, 255.0);
+  reference_template.convertTo(out_ref_template, CV_8U);
 }
 
 /**
@@ -152,7 +150,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
       ibg_optimizer->getCurrentTemplate(current_template);
 
       cv::Mat out_cur_template;
-      current_template.convertTo(out_cur_template, CV_8U, 255.0);
+      current_template.convertTo(out_cur_template, CV_8U);
       sensor_msgs::ImagePtr stabilized_msg =
           cv_bridge::CvImage(std_msgs::Header(), "mono8", out_cur_template).toImageMsg();
       stabilized_pub_ptr->publish(stabilized_msg);
@@ -255,15 +253,15 @@ int main(int argc, char** argv)
   // Initialize the optimizer according to the homography type
   if (homography_type == "affine")
   {
-    ibg_optimizer = new VTEC::IBGAffineHomographyOptimizerCvWrapper();
+    ibg_optimizer = new VTEC::IBGAffineHomographyOptimizer();
   }
   else if (homography_type == "stretch")
   {
-    ibg_optimizer = new VTEC::IBGStretchHomographyOptimizerCvWrapper();
+    ibg_optimizer = new VTEC::IBGStretchHomographyOptimizer();
   }
   else
   {
-    ibg_optimizer = new VTEC::IBGFullHomographyOptimizerCvWrapper();
+    ibg_optimizer = new VTEC::IBGFullHomographyOptimizer();
   }
 
   ibg_optimizer->initialize(MAX_NB_ITERATION_PER_LEVEL, MAX_NB_PYR_LEVEL, PIXEL_KEEP_RATE);
