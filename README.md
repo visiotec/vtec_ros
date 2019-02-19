@@ -15,6 +15,10 @@ Click on the thumbnails to watch the videos on YouTube.
 
 [![YouTube](https://img.youtube.com/vi/W-7otD3THM4/0.jpg)](https://www.youtube.com/watch?v=W-7otD3THM4)
 
+* Robust to Partial Occlusion Intensity-based visual tracking with full 8-DoF homography
+
+[![YouTube](https://img.youtube.com/vi/H0RptGYu9UA/0.jpg)](https://www.youtube.com/watch?v=H0RptGYu9UA)
+
 
 ## Documentation and Citing ##
 
@@ -141,6 +145,9 @@ Tracks a planar object in an image sequence.
 
    Specifies the type of homography to be considered by the optimization algorithm. The options are: "full", "affine" and "stretch".
 
+* **`robust_flag`** (string, default: "false")
+
+    Set this to true to enable robust mode. This will try to detect partial occlusions on the current image and discard that information from the estimation procedure.
 
 ## Usage ##
 
@@ -183,6 +190,28 @@ rosbag play vtec_tracker_theater.bag
 ```
 
 Now you should see in RViz the tracking process using the default parameters from the launch file.
+
+
+#### Occlusion Dataset ####
+
+Download the dataset from here: [occlusion dataset](https://www.dropbox.com/s/1gq836jblnuagw2/vtec_occlusion.bag?dl=0)
+
+Open two terminal windows, and launch in the first one the tracker node with:
+
+```
+roslaunch vtec_tracker tracker.launch config_file:=config_robust.yaml
+```
+
+In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
+
+```
+rosbag decompress vtec_occlusion.bag
+rosbag play vtec_occlusion.bag
+```
+
+Now you should see in RViz the tracking process using the parameters from the launch file.
+
+
 
 
 ### Running from a live camera ###
