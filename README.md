@@ -11,11 +11,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 [![YouTube](https://img.youtube.com/vi/r7kZLqQ5xbI/0.jpg)](https://www.youtube.com/watch?v=r7kZLqQ5xbI)
 
-* Intensity-based visual tracking with affine 6-DoF homography
-
-[![YouTube](https://img.youtube.com/vi/W-7otD3THM4/0.jpg)](https://www.youtube.com/watch?v=W-7otD3THM4)
-
-* Robust to Partial Occlusion Intensity-based visual tracking with full 8-DoF homography
+* Robust intensity-based visual tracking with full 8-DoF homography and occlusion handling
 
 [![YouTube](https://img.youtube.com/vi/H0RptGYu9UA/0.jpg)](https://www.youtube.com/watch?v=H0RptGYu9UA)
 
