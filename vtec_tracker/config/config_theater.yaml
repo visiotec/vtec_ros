@@ -7,3 +7,4 @@ max_nb_iter_per_level: 5
 max_nb_pyr_level: 3
 sampling_rate: 1.0
 homography_type: full
+robust_flag: false
