@@ -1,6 +1,6 @@
 # VisioTec ROS Packages
 
-[ROS] (Kinetic and Melodic) packages developed at the VisioTec research group, CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/talks#TOC-Project-VISIOTEC-in-5-slides).
+[ROS] (Kinetic and Melodic) packages developed at the VisioTec research group, CTI Renato Archer, Brazil. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/talks#TOC-Project-VISIOTEC-in-5-slides).
 
 
 ## Video Examples ##
@@ -34,7 +34,7 @@ The technical report available [here](https://github.com/lukscasanova/vtec/blob/
 
 ## Installation ##
 
-These packages were tested on ROS Kinetic with Ubuntu 16.04, and ROS Melodic with Ubuntu 18.04.
+These packages were tested both on ROS Kinetic with Ubuntu 16.04, and on ROS Melodic with Ubuntu 18.04.
 
 ### Dependencies ###
 
