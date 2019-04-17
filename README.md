@@ -18,15 +18,15 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
+The technical report available [here](https://github.com/lukscasanova/vtec/blob/opencv/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
 
 ```
-@TechReport{nogueira2017,
+@TechReport{nogueira2019,
   author = {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
-  title  = {{VISIOTEC} Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
-  number = {CTI-VTEC-TR-01-2017},
+  title  = {{VTEC} robust intensity-based homography optimization software},
+  number = {CTI-VTEC-TR-01-19},
   institution = {CTI},
-  year = {2017},
+  year = {2019},
   address = {Brazil}
 }
 ```
@@ -223,7 +223,7 @@ A Rviz window will pop-up with the camera images. In the terminal window where y
 
 ## Resources ##
 
-* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf)
+* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/lukscasanova/vtec/blob/opencv/vtec_ibgho_TR.pdff)
 * VisioTec C++ Libraries: [https://github.com/lukscasanova/vtec](https://github.com/lukscasanova/vtec)
 * Geraldo Silveira's website: [https://sites.google.com/site/geraldofsilveira/](https://sites.google.com/site/geraldofsilveira/)
 
