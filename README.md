@@ -1,6 +1,6 @@
 # VisioTec ROS Packages
 
-[ROS] (Kinetic) packages developed at the VisioTec research group of the CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/talks#TOC-Project-VISIOTEC-in-5-slides).
+[ROS] (Kinetic and Melodic) packages developed at the VisioTec research group, CTI Renato Archer. Further information about this group can be found [here](https://sites.google.com/site/geraldofsilveira/talks#TOC-Project-VISIOTEC-in-5-slides).
 
 
 ## Video Examples ##
@@ -18,7 +18,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/lukscasanova/vtec/blob/opencv/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
+The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
 
 ```
 @TechReport{nogueira2019,
@@ -34,7 +34,7 @@ The technical report available [here](https://github.com/lukscasanova/vtec/blob/
 
 ## Installation ##
 
-These packages were tested on ROS Kinetic and Ubuntu 16.04.
+These packages were tested on ROS Kinetic with Ubuntu 16.04, and ROS Melodic with Ubuntu 18.04.
 
 ### Dependencies ###
 
@@ -51,7 +51,7 @@ Setup a ROS workspace.
 mkdir -p ~/catkin_ws/src
 ```
 
-Install the VisioTec Library. It is a standalone cpp library, non-ROS.s
+Install the VisioTec Library. It is a standalone cpp library, non-ROS.
 
 ```
 cd ~/catkin_ws/src
@@ -101,7 +101,7 @@ Tracks a planar object in an image sequence.
 
 * **`tracking`** ([vtec_tracker/TrackingResult])
 
-   Information about the tracking. Includes the estimated homography and the photometric parameters.
+   Information about the tracking, including the estimated homography and the quality score.
 
 #### Parameters
 
