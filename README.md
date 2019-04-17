@@ -41,7 +41,7 @@ These packages were tested both on ROS Kinetic with Ubuntu 16.04, and on ROS Mel
 Install the usb_cam driver from ROS repositories.
 
 ```
-sudo apt-get install ros-kinetic-usb-cam
+sudo apt-get install ros-[kinetic|melodic]-usb-cam
 ```
 
 ### Build ###
