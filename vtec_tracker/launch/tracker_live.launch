@@ -1,5 +1,7 @@
 <launch>
+   <arg name="video_device" default="/dev/video0"/>
    <arg name="use_ptgrey" default="false" />
+   <arg name="config_file" default="config.yaml"/>
 
    <!-- Camera Nodes -->
    <!-- Point Grey -->
@@ -30,7 +32,7 @@
    <!-- Common Webcam -->
    <group unless="$(arg use_ptgrey)" >
       <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
-         <param name="video_device" value="/dev/video0" />
+         <param name="video_device" value="$(arg video_device)" />
          <param name="image_width" value="640" />
          <param name="image_height" value="480" />
          <param name="pixel_format" value="yuyv" />
@@ -41,7 +43,7 @@
 
    <!-- Tracker Nodes -->
    <include file="$(find vtec_tracker)/launch/tracker.launch">
-      <!-- <arg name="config_file" value="config_theater.yaml"/> -->
+      <arg name="config_file" value="$(arg config_file)"/>
    </include>
 
 </launch>

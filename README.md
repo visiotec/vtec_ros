@@ -11,22 +11,22 @@ Click on the thumbnails to watch the videos on YouTube.
 
 [![YouTube](https://img.youtube.com/vi/r7kZLqQ5xbI/0.jpg)](https://www.youtube.com/watch?v=r7kZLqQ5xbI)
 
-* Intensity-based visual tracking with affine 6-DoF homography
+* Robust intensity-based visual tracking with full 8-DoF homography and occlusion handling
 
-[![YouTube](https://img.youtube.com/vi/W-7otD3THM4/0.jpg)](https://www.youtube.com/watch?v=W-7otD3THM4)
+[![YouTube](https://img.youtube.com/vi/H0RptGYu9UA/0.jpg)](https://www.youtube.com/watch?v=H0RptGYu9UA)
 
 
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
+The technical report available [here](https://github.com/lukscasanova/vtec/blob/opencv/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
 
 ```
-@TechReport{nogueira2017,
+@TechReport{nogueira2019,
   author = {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
-  title  = {{VISIOTEC} Intensity-based Homography Optimization Software: Basic Theory and Use Cases},
-  number = {CTI-VTEC-TR-01-2017},
+  title  = {{VTEC} robust intensity-based homography optimization software},
+  number = {CTI-VTEC-TR-01-19},
   institution = {CTI},
-  year = {2017},
+  year = {2019},
   address = {Brazil}
 }
 ```
@@ -141,6 +141,9 @@ Tracks a planar object in an image sequence.
 
    Specifies the type of homography to be considered by the optimization algorithm. The options are: "full", "affine" and "stretch".
 
+* **`robust_flag`** (string, default: "false")
+
+    Set this to true to enable robust mode. This will try to detect partial occlusions on the current image and discard that information from the estimation procedure.
 
 ## Usage ##
 
@@ -185,6 +188,28 @@ rosbag play vtec_tracker_theater.bag
 Now you should see in RViz the tracking process using the default parameters from the launch file.
 
 
+#### Occlusion Dataset ####
+
+Download the dataset from here: [occlusion dataset](https://www.dropbox.com/s/1gq836jblnuagw2/vtec_occlusion.bag?dl=0)
+
+Open two terminal windows, and launch in the first one the tracker node with:
+
+```
+roslaunch vtec_tracker tracker.launch config_file:=config_robust.yaml
+```
+
+In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
+
+```
+rosbag decompress vtec_occlusion.bag
+rosbag play vtec_occlusion.bag
+```
+
+Now you should see in RViz the tracking process using the parameters from the launch file.
+
+
+
+
 ### Running from a live camera ###
 
 Open a terminal window and launch the tracker node:
@@ -198,7 +223,7 @@ A Rviz window will pop-up with the camera images. In the terminal window where y
 
 ## Resources ##
 
-* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf)
+* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/lukscasanova/vtec/blob/opencv/vtec_ibgho_TR.pdf)
 * VisioTec C++ Libraries: [https://github.com/lukscasanova/vtec](https://github.com/lukscasanova/vtec)
 * Geraldo Silveira's website: [https://sites.google.com/site/geraldofsilveira/](https://sites.google.com/site/geraldofsilveira/)
 

@@ -1,0 +1,7 @@
+<launch>
+   <include file="$(find vtec_tracker)/launch/tracker_live.launch">
+      <arg name="video_device" default="/dev/video0"/>
+      <arg name="use_ptgrey" default="false" />
+      <arg name="config_file" default="config_robust.yaml"/>
+   </include>
+</launch>
