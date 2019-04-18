@@ -23,7 +23,7 @@ The technical report available [here](https://github.com/lukscasanova/vtec/blob/
 ```
 @TechReport{nogueira2019,
   author = {Lucas Nogueira and Ely de Paiva and Geraldo Silveira},
-  title  = {{VTEC} robust intensity-based homography optimization software},
+  title  = {Visio{T}ec robust intensity-based homography optimization software},
   number = {CTI-VTEC-TR-01-19},
   institution = {CTI},
   year = {2019},
