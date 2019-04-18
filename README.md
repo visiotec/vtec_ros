@@ -141,7 +141,7 @@ Tracks a planar object in an image sequence.
 
    Specifies the type of homography to be considered by the optimization algorithm. The options are: "full", "affine" and "stretch".
 
-* **`robust_flag`** (string, default: "false")
+* **`robust_flag`** (bool, default: "false")
 
     Set this to true to enable robust mode. This will try to detect partial occlusions on the current image and discard that information from the estimation procedure.
 
