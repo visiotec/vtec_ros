@@ -13,7 +13,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 * Robust intensity-based visual tracking with full 8-DoF homography and occlusion handling
 
-[![YouTube](https://img.youtube.com/vi/H0RptGYu9UA/0.jpg)](https://www.youtube.com/watch?v=H0RptGYu9UA)
+[![YouTube](https://img.youtube.com/vi/qhAFe8IbIHc/0.jpg)](https://www.youtube.com/watch?v=qhAFe8IbIHc)
 
 
 ## Documentation and Citing ##
