@@ -218,8 +218,13 @@ Open a terminal window and launch the tracker node:
 roslaunch vtec_tracker tracker_live.launch
 ```
 
-A Rviz window will pop-up with the camera images. In the terminal window where you issued the roslaunch command, press the **S** key to start tracking. This will select a bounding box in the current frame to be tracked. You can press **S** again anytime to restart the tracking process.
+A Rviz window will pop-up with the camera images. In the terminal window where you issued the roslaunch command, press the **S** key to start tracking. This will select a bounding box in the current frame to be tracked. You can press **S** again anytime to restart the tracking process. 
 
+If you want to enable the robust to unknown occlusion mode, use the following command instead:
+
+```
+roslaunch vtec_tracker tracker_live_occlusion.launch 
+```
 
 ## Resources ##
 
