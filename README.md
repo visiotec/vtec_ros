@@ -145,6 +145,7 @@ Tracks a planar object in an image sequence.
 
     Set this to true to enable robust mode. This will try to detect partial occlusions on the current image and discard that information from the estimation procedure.
 
+
 ## Usage ##
 
 ### Running with a dataset ###
@@ -209,7 +210,6 @@ Now you should see in RViz the tracking process using the parameters from the la
 
 
 
-
 ### Running from a live camera ###
 
 Open a terminal window and launch the tracker node:
@@ -232,7 +232,7 @@ roslaunch vtec_tracker tracker_live_occlusion.launch
 * VisioTec C++ Libraries: [https://github.com/lukscasanova/vtec](https://github.com/lukscasanova/vtec)
 * Geraldo Silveira's website: [https://sites.google.com/site/geraldofsilveira/](https://sites.google.com/site/geraldofsilveira/)
 
-## Acknowledgements ## 
+## Acknowledgement ## 
 This work was supported in part by the CAPES under Grant 88887.136349/2017-00, in part by the FAPESP under Grant 2017/22603-0, and in part by the InSAC (CNPq under Grant 465755/2014-3 and FAPESP under Grant 2014/50851-0).
 
 ## Bugs & Feature Requests
