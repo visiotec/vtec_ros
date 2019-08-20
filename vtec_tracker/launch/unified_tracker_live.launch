@@ -1,5 +1,5 @@
 <launch>
-   <arg name="video_device" default="/dev/video1"/>
+   <arg name="video_device" default="/dev/video0"/>
    <arg name="use_ptgrey" default="false" />
    <arg name="config_file" default="unified_config.yaml"/>
 

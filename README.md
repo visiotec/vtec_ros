@@ -15,6 +15,11 @@ Click on the thumbnails to watch the videos on YouTube.
 
 [![YouTube](https://img.youtube.com/vi/qhAFe8IbIHc/0.jpg)](https://www.youtube.com/watch?v=qhAFe8IbIHc)
 
+* Unified intensity- and feature-based visual tracking with full 8-DoF homography
+
+[![YouTube](https://img.youtube.com/vi/oArw449qp1E/0.jpg)](https://www.youtube.com/watch?v=oArw449qp1E)
+
+
 
 ## Documentation and Citing ##
 
@@ -77,7 +82,7 @@ source devel/setup.bash
 
 ### ibgho_tracker_node ###
 
-Tracks a planar object in an image sequence.
+Tracks a planar object in an image sequence. This uses a pure intensity-based homography estimation algorithm.
 
 #### Subscribed Topics
 
@@ -146,6 +151,11 @@ Tracks a planar object in an image sequence.
     Set this to true to enable robust mode. This will try to detect partial occlusions on the current image and discard that information from the estimation procedure.
 
 
+### unified_tracker_node ###
+
+Tracks a planar object in an image sequence. Uses the Unified intensity- and feature-based homography estimation algorithm. Thee same set of topics and parameters may be applied.
+
+
 ## Usage ##
 
 ### Running with a dataset ###
@@ -157,7 +167,7 @@ Download the dataset from here: [newspaper dataset](https://www.dropbox.com/s/kx
 Open two terminal windows, and launch in the first one the tracker node with:
 
 ```
-roslaunch vtec_tracker tracker.launch
+roslaunch vtec_tracker ibg_tracker.launch
 ```
 
 In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
@@ -169,6 +179,7 @@ rosbag play vtec_test_tracker.bag
 
 Now you should see in RViz the tracking process using the default parameters from the launch file.
 
+
 #### Theater Dataset ####
 
 Download the dataset from here: [theater dataset](https://www.dropbox.com/s/hjbxhzb4k54ff9a/vtec_tracker_theater.bag?dl=0)
@@ -176,7 +187,7 @@ Download the dataset from here: [theater dataset](https://www.dropbox.com/s/hjbx
 Open two terminal windows, and launch in the first one the tracker node with:
 
 ```
-roslaunch vtec_tracker tracker.launch config_file:=config_theater.yaml
+roslaunch vtec_tracker ibg_tracker.launch config_file:=config_theater.yaml
 ```
 
 In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
@@ -196,7 +207,7 @@ Download the dataset from here: [occlusion dataset](https://www.dropbox.com/s/1g
 Open two terminal windows, and launch in the first one the tracker node with:
 
 ```
-roslaunch vtec_tracker tracker.launch config_file:=config_robust.yaml
+roslaunch vtec_tracker ibg_tracker.launch config_file:=config_robust.yaml
 ```
 
 In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
@@ -208,6 +219,24 @@ rosbag play vtec_occlusion.bag
 
 Now you should see in RViz the tracking process using the parameters from the launch file.
 
+#### Unified Dataset ####
+
+Download the dataset from here: [unified dataset](https://www.dropbox.com/s/1gq836jblnuagw2/vtec_occlusion.bag?dl=0)
+
+Open two terminal windows, and launch in the first one the tracker node with:
+
+```
+roslaunch vtec_tracker unified_tracker.launch
+```
+
+In the other terminal, navigate to the directory where you downloaded the dataset, decompress and play the bagfile with:
+
+```
+rosbag decompress vtec_unified.bag
+rosbag play vtec_unified.bag
+```
+
+Now you should see in RViz the tracking process using the parameters from the launch file.
 
 
 ### Running from a live camera ###
@@ -223,7 +252,13 @@ A Rviz window will pop-up with the camera images. In the terminal window where y
 If you want to enable the robust to unknown occlusion mode, use the following command instead:
 
 ```
-roslaunch vtec_tracker tracker_live_occlusion.launch 
+roslaunch vtec_tracker ibg_tracker_live_occlusion.launch 
+```
+
+If you want to use the unified IB+FB algorithm, use the following command instead:
+
+```
+roslaunch vtec_tracker unified_tracker_live.launch
 ```
 
 ## Resources ##
