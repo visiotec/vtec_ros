@@ -33,6 +33,10 @@ message(${vtec_LIBRARIES})
 add_executable(ibgho_tracker_node src/ibgho_tracker_node.cpp)
 target_link_libraries(ibgho_tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES} ${OpenCV_LIBRARIES})
 
+
+add_executable(unified_tracker_node src/unified_tracker_node.cpp)
+target_link_libraries(unified_tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES} ${OpenCV_LIBRARIES})
+
 add_executable(keyboard_control src/key_commands.cpp)
 target_link_libraries(keyboard_control ${catkin_LIBRARIES})
 

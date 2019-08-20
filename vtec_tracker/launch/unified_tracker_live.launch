@@ -1,0 +1,57 @@
+<launch>
+   <arg name="video_device" default="/dev/video1"/>
+   <arg name="use_ptgrey" default="false" />
+   <arg name="config_file" default="unified_config.yaml"/>
+
+   <!-- Camera Nodes -->
+   <!-- Point Grey -->
+   <group if="$(arg use_ptgrey)" ns="usb_cam">
+      <node pkg="nodelet" type="nodelet" name="camera_nodelet_manager" args="manager" />
+
+      <node pkg="nodelet" type="nodelet" name="camera_nodelet"
+          args="load pointgrey_camera_driver/PointGreyCameraNodelet camera_nodelet_manager" >
+         <param name="frame_id" value="camera_link" />
+         <param name="frame_rate" value="30" />
+         <param name="format7_roi_width" value="640" />
+         <param name="format7_roi_height" value="480" />
+         <param name="format7_x_offset" value="720" />
+         <param name="format7_y_offset" value="536" />
+         <param name="auto_gain" value="false"/>
+         <param name="auto_exposure" value="false"/>
+         <param name="auto_saturation" value="false"/>
+         <param name="auto_sharpness" value="false"/>
+         <param name="auto_shutter" value="false"/>
+         <param name="auto_white_balance" value="false"/>
+      </node>
+
+      <node pkg="nodelet" type="nodelet" name="image_proc_debayer"
+         args="load image_proc/debayer camera_nodelet_manager">
+      </node>
+   </group>
+
+   <!-- Common Webcam -->
+   <group unless="$(arg use_ptgrey)" >
+      <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+         <param name="video_device" value="$(arg video_device)" />
+         <param name="image_width" value="640" />
+         <param name="image_height" value="480" />
+         <param name="pixel_format" value="yuyv" />
+         <param name="camera_frame_id" value="usb_cam" />
+         <param name="io_method" value="mmap"/>
+         <param name="brightness" value="200"/>
+         <!-- <param name="contrast"/ value="-1"/> -->
+         <!-- <param name="auto_white_balance" value="false"/> -->
+         <!-- <param name="auto_gain" value="false"/> -->
+<!--          <param name="autoexposure" value="false"/>
+         <param name="exposure" value="20"/>
+         <param name="gain" value="100"/> -->
+
+      </node>
+   </group>
+
+   <!-- Tracker Nodes -->
+   <include file="$(find vtec_tracker)/launch/unified_tracker.launch">
+      <arg name="config_file" value="$(arg config_file)"/>
+   </include>
+
+</launch>
