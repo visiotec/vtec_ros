@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(vtec REQUIRED)
 
-find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED COMPONENTS xfeatures2d)
 
 catkin_package(
 	INCLUDE_DIRS include

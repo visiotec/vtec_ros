@@ -38,13 +38,13 @@
          <param name="pixel_format" value="yuyv" />
          <param name="camera_frame_id" value="usb_cam" />
          <param name="io_method" value="mmap"/>
-         <param name="brightness" value="200"/>
-         <!-- <param name="contrast"/ value="-1"/> -->
-         <!-- <param name="auto_white_balance" value="false"/> -->
-         <!-- <param name="auto_gain" value="false"/> -->
-<!--          <param name="autoexposure" value="false"/>
-         <param name="exposure" value="20"/>
-         <param name="gain" value="100"/> -->
+         <param name="brightness" value="10"/>
+         <param name="contrast" value="1"/>
+         <param name="auto_white_balance" value="true"/>
+         <param name="auto_gain" value="true"/>
+         <param name="autoexposure" value="true"/>
+         <!-- <param name="exposure" value="20"/> -->
+         <!-- <param name="gain" value="100"/> -->
 
       </node>
    </group>
