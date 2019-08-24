@@ -43,6 +43,19 @@ These packages were tested both on ROS Kinetic with Ubuntu 16.04, and on ROS Mel
 
 ### Dependencies ###
 
+#### OpenCV ####
+
+This package depends on the OpenCV module xfeatures2d. In ROS Kinetic/Ubuntu 16.04, this module is installed by default with the ROS packages, and therefore no further steps are needed. However, for ROS Melodic/Ubuntu 18.04, it is necessary to install it from source. 
+
+Follow the instructions in these links if you are working with ROS Melodic.
+
+* [https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/](https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/)
+* [https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/](https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/)
+
+The dependency on xfeatures2d is necessary because of the Feature detection algorithm. If you just want to use the intensity-based algorithms, you may use the [v1.0.1]() version of this repo.
+
+
+#### usb_cam ###
 Install the usb_cam driver from ROS repositories.
 
 ```
@@ -153,7 +166,70 @@ Tracks a planar object in an image sequence. This uses a pure intensity-based ho
 
 ### unified_tracker_node ###
 
-Tracks a planar object in an image sequence. Uses the Unified intensity- and feature-based homography estimation algorithm. Thee same set of topics and parameters may be applied.
+Tracks a planar object in an image sequence. Uses the Unified intensity- and feature-based homography estimation algorithm.
+
+#### Subscribed Topics
+
+* **`camera/image`** ([sensor_msgs/Image])
+
+   The incoming image stream from the camera.
+
+#### Published Topics
+
+* **`annotated_image`** ([sensor_msgs/Image])
+
+   The image stream annotaded with the tracked image region and the score.
+
+* **`stabilized_image`** ([sensor_msgs/Image])
+
+   The warped image patch from the image stream, that tries to match to the reference image patch.
+
+* **`reference_image`** ([sensor_msgs/Image])
+
+   The reference template extracted from the reference image file.   
+
+* **`tracking`** ([vtec_tracker/TrackingResult])
+
+   Information about the tracking, including the estimated homography and the quality score.
+
+#### Parameters
+
+* **`image_topic`** (string, default: "usb_cam/image_raw")
+
+   The name of the image input topic.
+
+* **`bbox_pos_x`** (int, default: 200)
+
+   The x coordinate of the upper left corner of the region of interest in the reference image.
+
+* **`bbox_pos_y`** (int, default: 150)
+
+   The y coordinate of the upper left corner of the region of interest in the reference image.
+
+* **`bbox_size_x`** (int, default: 200)
+
+   The length in pixels of the region of interest along the x direction.
+
+* **`bbox_size_x`** (int, default: 200)
+
+   The length in pixels of the region of interest along the y direction.
+
+* **`max_nb_iter_per_level`** (int, default: 5)
+
+   Maximum number of optimization iterations per pyramid level.
+
+* **`max_nb_pyr_level`** (int, default: 2)
+
+   Maximum number of pyramids levels.
+
+* **`sampling_rate`** (double, default: 1.0)
+
+   The sampling rate used to sample points used in the optimization process. 1.0 means 100% of the points are used.
+
+* **`fb_factor`** (double, default: 1.0)
+
+   This factor impacts the weighting of the feature-based component in the optmization cost function.
+   The FB weight is given by: 1-exp(-fb\_factor*fb\_cost). In summary, increasing this value will give a larger weight to the FB component.
 
 
 ## Usage ##
