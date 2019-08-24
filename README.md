@@ -51,12 +51,13 @@ Setup a ROS workspace.
 mkdir -p ~/catkin_ws/src
 ```
 
-Install the VisioTec Library. It is a standalone cpp library, non-ROS.
+Install the VisioTec Library. It is a standalone cpp library, non-ROS. Use the v1.0.1 version of the library.
 
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/lukscasanova/vtec.git
 cd vtec
+git checkout v1.0.1
 mkdir build
 cd build
 cmake ..
@@ -68,6 +69,8 @@ Install the ROS packages
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/lukscasanova/vtec_ros.git
+cd vtec_ros
+git checkout v1.0.1
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
