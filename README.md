@@ -18,7 +18,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
+The technical report available [here](https://github.com/visiotec/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
 
 ```
 @TechReport{nogueira2019,
@@ -51,13 +51,13 @@ Setup a ROS workspace.
 mkdir -p ~/catkin_ws/src
 ```
 
-Install the VisioTec Library. It is a standalone cpp library, non-ROS. Use the v1.0.1 version of the library.
+Install the VisioTec Library. It is a standalone cpp library, non-ROS. Use the v1.0.2 version of the library.
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/lukscasanova/vtec.git
+git clone https://github.com/visiotec/vtec.git
 cd vtec
-git checkout v1.0.1
+git checkout v1.0.2
 mkdir build
 cd build
 cmake ..
@@ -68,9 +68,9 @@ Install the ROS packages
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/lukscasanova/vtec_ros.git
+git clone https://github.com/visiotec/vtec_ros.git
 cd vtec_ros
-git checkout v1.0.1
+git checkout v1.0.2
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
