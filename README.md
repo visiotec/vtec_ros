@@ -23,7 +23,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
+The technical report available [here](https://github.com/visiotec/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
 
 ```
 @TechReport{nogueira2019,
@@ -52,7 +52,7 @@ Follow the instructions in these links if you are working with ROS Melodic.
 * [https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/](https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/)
 * [https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/](https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/)
 
-The dependency on xfeatures2d is necessary because of the Feature detection algorithm. If you just want to use the intensity-based algorithms, you may use the [v1](https://github.com/lukscasanova/vtec_ros/tree/v1.0.1) version of this repo.
+The dependency on xfeatures2d is necessary because of the Feature detection algorithm. If you just want to use the intensity-based algorithms, you may use the [v1](https://github.com/visiotec/vtec_ros/tree/v1.0.2) version of this repo.
 
 
 #### usb_cam ###
@@ -73,7 +73,7 @@ Install the VisioTec Library. It is a standalone cpp library, non-ROS.
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/lukscasanova/vtec.git
+git clone https://github.com/visiotec/vtec.git
 cd vtec
 mkdir build
 cd build
@@ -85,7 +85,7 @@ Install the ROS packages
 
 ```
 cd ~/catkin_ws/src
-git clone https://github.com/lukscasanova/vtec_ros.git
+git clone https://github.com/visiotec/vtec_ros.git
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
@@ -339,8 +339,8 @@ roslaunch vtec_tracker unified_tracker_live.launch
 
 ## Resources ##
 
-* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf)
-* VisioTec C++ Libraries: [https://github.com/lukscasanova/vtec](https://github.com/lukscasanova/vtec)
+* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/visiotec/vtec/blob/master/vtec_ibgho_TR.pdf)
+* VisioTec C++ Libraries: [https://github.com/visiotec/vtec](https://github.com/visiotec/vtec)
 * Geraldo Silveira's website: [https://sites.google.com/site/geraldofsilveira/](https://sites.google.com/site/geraldofsilveira/)
 
 ## Acknowledgment ## 
@@ -348,7 +348,7 @@ This work was supported in part by the CAPES under Grant 88887.136349/2017-00, i
 
 ## Bugs & Feature Requests
 
-Please report bugs and request features using the [Issue Tracker](https://github.com/lukscasanova/vtec_ros/issues).
+Please report bugs and request features using the [Issue Tracker](https://github.com/visiotec/vtec_ros/issues).
 
 [ROS]: http://www.ros.org
 [sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
