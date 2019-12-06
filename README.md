@@ -231,8 +231,8 @@ roslaunch vtec_tracker tracker_live_occlusion.launch
 
 ## Resources ##
 
-* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/lukscasanova/vtec/blob/master/vtec_ibgho_TR.pdf)
-* VisioTec C++ Libraries: [https://github.com/lukscasanova/vtec](https://github.com/lukscasanova/vtec)
+* IBGHO Technical Report: [vtec\_ibgho\_TR.pdf](https://github.com/visiotec/vtec/blob/master/vtec_ibgho_TR.pdf)
+* VisioTec C++ Libraries: [https://github.com/visiotec/vtec](https://github.com/visiotec/vtec)
 * Geraldo Silveira's website: [https://sites.google.com/site/geraldofsilveira/](https://sites.google.com/site/geraldofsilveira/)
 
 ## Acknowledgment ## 
@@ -240,7 +240,7 @@ This work was supported in part by the CAPES under Grant 88887.136349/2017-00, i
 
 ## Bugs & Feature Requests
 
-Please report bugs and request features using the [Issue Tracker](https://github.com/lukscasanova/vtec_ros/issues).
+Please report bugs and request features using the [Issue Tracker](https://github.com/visiotec/vtec_ros/issues).
 
 [ROS]: http://www.ros.org
 [sensor_msgs/Image]: http://docs.ros.org/api/sensor_msgs/html/msg/Image.html
