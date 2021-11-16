@@ -23,7 +23,7 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-If you use this work, please cite:
+If you use this work, please cite this [paper](https://www.researchgate.net/publication/344672175_Towards_a_Unified_Approach_to_Homography_Estimation_Using_Image_Features_and_Pixel_Intensities):
 
 ```
 @inproceedings{Nogueira2020TowardsAU,
