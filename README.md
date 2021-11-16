@@ -23,7 +23,20 @@ Click on the thumbnails to watch the videos on YouTube.
 
 ## Documentation and Citing ##
 
-The technical report available [here](https://github.com/visiotec/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. If you use this software, please cite the technical report using:
+If you use this work, please cite:
+
+```
+@inproceedings{Nogueira2020TowardsAU,
+  title={Towards a Unified Approach to Homography Estimation Using Image Features and Pixel Intensities},
+  author={Lucas Nogueira and Ely Carneiro de Paiva and Geraldo F. Silveira},
+  booktitle={International Conference on Autonomic and Autonomous Systems},
+  pages={110-115},
+  year={2020}
+}
+```
+
+
+There is a technical report available [here](https://github.com/visiotec/vtec/blob/master/vtec_ibgho_TR.pdf) describes the underlying algorithm and its working principles. 
 
 ```
 @TechReport{nogueira2019,
