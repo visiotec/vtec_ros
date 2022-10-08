@@ -13,7 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(vtec REQUIRED)
 
-find_package(OpenCV REQUIRED COMPONENTS xfeatures2d)
+# download opencv4.2 
+# https://github.com/opencv/opencv/releases/tag/4.2.0
+# https://github.com/opencv/opencv_contrib/releases/tag/4.2.0
+find_package(OpenCV 4.2.0 REQUIRED )
+find_package(OpenCV 4.2.0 REQUIRED COMPONENTS xfeatures2d)
+message( "Opencv version found: " ${OpenCV_VERSION} )
+message( "Opencv libraries found: " ${OpenCV_LIBRARIES} )
 
 catkin_package(
 	INCLUDE_DIRS include

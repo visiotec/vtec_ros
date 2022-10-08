@@ -180,7 +180,7 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
     if (state == STARTING)
     {
       VTEC::drawResult(cur_img, H, zncc, BBOX_SIZE_X, BBOX_SIZE_Y);
-      cv::putText(cur_img, "press S to start tracking", cv::Point(30, 60), CV_FONT_HERSHEY_SIMPLEX, 1, 255, 3);
+      cv::putText(cur_img, "press S to start tracking", cv::Point(30, 60), cv::FONT_HERSHEY_SIMPLEX, 1, 255, 3);
     }
 
     sensor_msgs::ImagePtr annotated_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", cur_img).toImageMsg();
