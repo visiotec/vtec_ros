@@ -53,9 +53,9 @@ There is a technical report available [here](https://github.com/visiotec/vtec/bl
 ## Installation ##
 
 These packages were tested on:
-version (tag) 2.1 - ROS Neotic with Ubuntu 20.04 and OpenCV 4.2
-version (tag) 2.0   - ROS Melodic with Ubuntu 18.04.
-version (tag) 1   - ROS Kinetic with Ubuntu 16.04
+* version (tag) 2.1 - ROS Neotic with Ubuntu 20.04 and OpenCV 4.2
+* version (tag) 2.0   - ROS Melodic with Ubuntu 18.04.
+* version (tag) 1   - ROS Kinetic with Ubuntu 16.04
 
 ### Dependencies ###
 
