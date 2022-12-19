@@ -52,20 +52,25 @@ There is a technical report available [here](https://github.com/visiotec/vtec/bl
 
 ## Installation ##
 
-These packages were tested both on ROS Kinetic with Ubuntu 16.04, and on ROS Melodic with Ubuntu 18.04.
+These packages were tested on:
+version (tag) 2.1 - ROS Neotic with Ubuntu 20.04 and OpenCV 4.2
+version (tag) 2.0   - ROS Melodic with Ubuntu 18.04.
+version (tag) 1   - ROS Kinetic with Ubuntu 16.04
 
 ### Dependencies ###
 
 #### OpenCV ####
 
-This package depends on the OpenCV module xfeatures2d. In ROS Kinetic/Ubuntu 16.04, this module is installed by default with the ROS packages, and therefore no further steps are needed. However, for ROS Melodic/Ubuntu 18.04, it is necessary to install it from source. 
+This package depends on the OpenCV module xfeatures2d. It is necessary to install OpenCV from source, and configure its compilation to include it, because this module is not compiled by default or included in the opencv packages from the Ubuntu distribution.
 
-Follow the instructions in these links if you are working with ROS Melodic.
+(Exception: in ROS Kinetic/Ubuntu 16.04, this module is installed by default with the ROS packages, and therefore no further steps are needed.)
+
+Here there are instructions about OpenCV instalation, for ROS Melodic:
 
 * [https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/](https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/)
 * [https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/](https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/)
 
-The dependency on xfeatures2d is necessary because of the Feature detection algorithm. If you just want to use the intensity-based algorithms, you may use the [v1](https://github.com/visiotec/vtec_ros/tree/v1.0.2) version of this repo.
+The dependency on xfeatures2d is necessary because of the Feature detection algorithm. If you just want to use the intensity-based algorithms, you may use the [v1](https://github.com/visiotec/vtec_ros/tree/v1.0.2) version of this repo, although it is dated.
 
 
 #### usb_cam ###
