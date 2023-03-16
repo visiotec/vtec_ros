@@ -34,6 +34,17 @@ include_directories(
 	${OpenCV_INCLUDE_DIRS}
 )
 
+
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  PATTERN ".svn" EXCLUDE )
+install(DIRECTORY launch/ 
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  PATTERN ".svn" EXCLUDE )
+install(DIRECTORY config/ 
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
+  PATTERN ".svn" EXCLUDE )
+
 message(${vtec_LIBRARIES})
 
 add_executable(ibgho_tracker_node src/ibgho_tracker_node.cpp)
@@ -46,3 +57,6 @@ target_link_libraries(unified_tracker_node ${catkin_LIBRARIES} ${vtec_LIBRARIES}
 add_executable(keyboard_control src/key_commands.cpp)
 target_link_libraries(keyboard_control ${catkin_LIBRARIES})
 
+install(TARGETS keyboard_control unified_tracker_node ibgho_tracker_node
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

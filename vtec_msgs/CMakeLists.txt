@@ -4,10 +4,11 @@ project(vtec_msgs)
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
   geometry_msgs
   std_msgs
   message_generation
-
 )
 
 add_message_files(
