@@ -70,6 +70,21 @@ Here there are instructions about OpenCV instalation, for ROS Melodic:
 * [https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/](https://answers.ros.org/question/312669/ros-melodic-opencv-xfeatures2d/)
 * [https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/](https://linuxize.com/post/how-to-install-opencv-on-ubuntu-18-04/)
 
+To simplify, here are direct URLs for the 4.2 versions of opencv and opencv_contrib repos:
+https://github.com/opencv/opencv/archive/refs/tags/4.2.0.tar.gz
+https://github.com/opencv/opencv_contrib/archive/refs/tags/4.2.0.tar.gz
+
+and this is the cmake command used to compile opencv (the ENABLE_NONFREE option enables compiling the feature detectors; and the path on the EXTRA_MODULES_PATH option must point to your opencv_contrib directory.
+
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_C_EXAMPLES=ON \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D OPENCV_GENERATE_PKGCONFIG=ON \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib-4.2.0/modules \
+    -D OPENCV_ENABLE_NONFREE=ON ..
+    -D BUILD_EXAMPLES=ON ..
+
 The dependency on xfeatures2d is necessary because of the Feature detection algorithm. If you just want to use the intensity-based algorithms, you may use the [v1](https://github.com/visiotec/vtec_ros/tree/v1.0.2) version of this repo, although it is dated.
 
 
